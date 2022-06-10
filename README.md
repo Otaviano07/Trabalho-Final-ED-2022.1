@@ -1,21 +1,25 @@
 <picture>
- <img alt="Shows an illustrated sun in light color mode and a moon with stars in dark color mode." src="https://pbs.twimg.com/profile_images/1283835103173648390/MYhdUSFu_400x400.jpg">
+ <img alt="Logo UFC." src="https://www.amontadavalley.com.br/wp-content/uploads/2021/11/Prancheta-8.png">
 </picture>
 
 # Trabalho Final Estrutura de Dados
 ## Sistema Biblioteca
 
 ### Dados Equipe:
-**Otaviano Rodrigues da Silva – 411631**
-**José Igor Oliveira de Lima – 500063**
-**Jovito Maia Pinheiro Moura – 482257**
-**Leonam Venâncio Wirtzbiki – 504415**
-**Guilherme Rafael de Pontes Silva – 511427**
+**411631 - Otaviano Rodrigues da Silva**
+
+**500063 - José Igor Oliveira de Lima**
+
+**482257 - Jovito Maia Pinheiro Moura**
+
+**504415 - Leonam Venâncio Wirtzbiki**
+
+**511427 - Guilherme Rafael de Pontes Silva**
 
 Neste trabalho, você deverá simular um sistema para biblioteca do campus da UFC-Russas
 conseguir encomendar livros de outros campus. O sistema possui as seguintes fases:
 
-Fase 1: inicialmente o aluno procura a biblioteca do seu campus para criar um processo de
+**Fase 1:** inicialmente o aluno procura a biblioteca do seu campus para criar um processo de
 encomenda de livro, onde é atendido por um estagiário. O estagiário fica encarregado de criar a
 documentação inicial para encomendar um livro. Para tal, ele deve cadastrar o nome do aluno,
 matrícula e descrição do livro. Portanto, estes dados devem ser adicionados (“cadastrados”) em
