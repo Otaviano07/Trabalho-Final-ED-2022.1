@@ -1,4 +1,13 @@
-Trabalho Prático – Estrutura de Dados
+Trabalho Final Estrutura de Dados
+Sistema Biblioteca
+
+Dados Equipe: 	Otaviano Rodrigues da Silva – 411631
+		        José Igor Oliveira de Lima – 500063
+		        Jovito Maia Pinheiro Moura – 482257
+		        Leonam Venâncio Wirtzbiki – 504415
+		        Guilherme Rafael de Pontes Silva – 511427
+
+
 
 Neste trabalho, você deverá simular um sistema para biblioteca do campus da UFC-Russas
 conseguir encomendar livros de outros campus. O sistema possui as seguintes fases:
