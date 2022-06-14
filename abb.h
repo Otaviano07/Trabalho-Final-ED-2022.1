@@ -1,34 +1,37 @@
-typedef struct Documento{ // Documento de Encomenda - ABB
-    int id_doc; // sistema q add
-    int prioridade; // sec q add
-    int mat_aluno; // est q add
-    char * nome_aluno; // est q add
-    char * detalhes_livro; // est q add
-    char * campus_aluno; // est q add
-    char * campus_livro;
-    char * secretario; // secretario responsavel
-    struct Documento * esq;
-    struct Documento * dir;
-}DOC;
+#include <stdio.h>
+#include <stdlib.h>
 
-DOC * raiz = NULL;
-int tam = 0;
+typedef struct Vertice{
+   
+    //Dados iniciais da encomenda de um livro
+    int id; //identificador
+    char * nome_aluno;
+    int matricula;
+    char * descricao;
+    
+    //mecanismo p/ unir nos!
+    struct Vertice * esq;
+    struct Vertice * dir;
+}VERTICE;
 
-DOC * buscar(int id_doc, DOC *aux){
+VERTICE * raiz = NULL;
+
+VERTICE* buscar(int id, VERTICE *aux){
+    
     if(aux != NULL){
-        if(aux->id_doc == id_doc){
+        if(aux->id == id){
             return aux;
-        }else if(id_doc < aux->id_doc){
+        }else if(id < aux->id){
             if(aux->esq != NULL){
-                return buscar(id_doc, aux->esq);
+                return buscar(id, aux->esq);
             }else{
-                return NULL;
+                return aux;
             }
-        }else if(id_doc > aux->id_doc){
+        }else if(id > aux->id){
             if(aux->dir != NULL){
-                return buscar(id_doc, aux->dir);
+                return buscar(id, aux->dir);
             }else{
-                return NULL;
+                return aux;
             }
         }
     }else{
@@ -36,61 +39,52 @@ DOC * buscar(int id_doc, DOC *aux){
     }
 }
 
-void adicionar_doc(int id_doc, int prioridade, DOC * pedido, char * campus_livro, char * secretario, DOC * aux){
-    DOC * novo = malloc(sizeof(DOC));
-    srand(time(NULL));
-    novo->id_doc = id_doc;
-    novo->prioridade = prioridade;
-    novo->mat_aluno = pedido->mat_aluno;
-    novo->nome_aluno = pedido->nome_aluno;
-    novo->detalhes_livro = pedido->detalhes_livro;
-    novo->campus_aluno = pedido->campus_aluno;
-    novo->campus_livro = campus_livro;
-    novo->secretario = secretario;
-    novo->esq = NULL;
-    novo->dir = NULL;
-    if(raiz == NULL){
-        raiz = novo;
-        tam++;
-        printf("\nNumero %d incluido com sucesso!!!", novo->id_doc);
-    }
-    else{
-        if(buscar(novo->id_doc, raiz) == NULL){
-            if(novo->id_doc < aux->id_doc){
-                if(aux->esq != NULL){
-                    adicionar_doc(novo->id_doc, novo->prioridade, pedido, novo->campus_livro, novo->secretario, aux->esq);
-                }
-                else{
-                    aux->esq = novo;
-                    tam++;
-                    printf("Numero %d incluido com sucesso!!!", novo->id_doc);
-                }
+
+void add_abb(int id, char *nome_aluno, int matricula, char *descricao){
+
+    VERTICE* aux = buscar(id, raiz);
+    
+    if(aux != NULL && aux->id == id){
+        printf("Insercao invalida!\n");
+    }else{
+        
+        VERTICE* novo = malloc(sizeof(VERTICE));
+        novo->id = id;
+        novo->nome_aluno = nome_aluno;
+        novo->matricula = matricula;
+        novo->descricao = descricao;
+        novo->esq = NULL;
+        novo->dir = NULL;
+        
+        if(aux == NULL){//arvore esta vazia
+            raiz = novo;
+        }else{
+            if(id < aux->id){
+                aux->esq = novo;
+            }else{
+                aux->dir = novo;
             }
-            else{
-                if(aux->dir != NULL){
-                    adicionar_doc(novo->id_doc, novo->prioridade, pedido, novo->campus_livro, novo->secretario, aux->dir);
-                }
-                else{
-                    aux->dir = novo;
-                    tam++;
-                    printf("Numero %d incluido com sucesso!!!", novo->id_doc);
-                }
-            }
-        }
-        else{
-            printf("ID %d nao pode ser adicionado!\nExistente da arvore.", novo->id_doc);
         }
     }
 }
 
 
-
-void in_ordem(DOC *aux){
+void in_ordem(VERTICE *aux){
+    
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
-    printf("%d ", aux->id_doc);
+    printf("%d\n", aux->id);
+    printf("%s\n", aux->nome_aluno);
+    printf("%d\n", aux->matricula);
+    printf("%s\n", aux->descricao);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
-    }
+        }
 }
+
+
+
+
+
+
