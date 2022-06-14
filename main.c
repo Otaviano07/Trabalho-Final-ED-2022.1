@@ -1,160 +1,76 @@
-//Nome: Otaviano Rodrigues da Silva Matricula: 411631
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
+#include "listareq.h"
+#include "abb.h"
 
-typedef struct Vertice{
-   
-    int id; //identificador unico de cada vertice
-    char *nomeAuno;
-    char *descricao;
-    int matricula;
-    struct Vertice * esq;
-    struct Vertice * dir;
-}VERTICE;
+// REMOVER COMENTARIOS AO FIM
 
-VERTICE * raiz = NULL;
-int tam = 0;
+typedef struct Usuario{ // Ja deve estar cadastrado - Lista
+    char * nome_sec;
+    char * cpf_sec;
+    char * senha_sec;
+    char * tipo; // 3 secretarios, 5 transportadores.
+    struct Usuario * prox;
+}USER;
 
-VERTICE* buscar(int id, VERTICE *aux){
-    
-    if(aux != NULL){ 
-        if(aux->id == id){ 
-            return aux;
-        }else if(id < aux->id){
-            if(aux->esq != NULL){
-                return buscar(id, aux->esq);
-            }else{
-                return NULL;                
-            }
-        }else if(id > aux->id){
-            if(aux->dir != NULL){
-                return buscar(id, aux->dir);
-            }else{
-                return NULL;
-            }
-        }
-    }else{
-        return NULL;
-    }
+
+DOC * remover(REQ * req, USER * responsavel){ //remove requisição retorna documento
+
+    //return documento;
 }
-
-void adicionar(int id, VERTICE *aux){
-
-    VERTICE *novo = malloc(sizeof(VERTICE));
-    novo->id = id;
-    //novo->nomeAuno = nomeAuno;
-    //novo->matricula = matricula;
-    //novo->descricao = descricao;
-    novo->esq = NULL;
-    novo->dir = NULL;
-
-    if(raiz == NULL){
-        raiz = novo;
-        tam++;
-        printf("\nNumero %d incluido com sucesso!!!", id);
-    }
-    else{
-        if(buscar(id, raiz) == NULL){
-            if(novo->id < aux->id){
-                
-                if(aux->esq != NULL){
-                    adicionar(id, aux->esq);
-                }
-                else{
-                    aux->esq = novo;
-                    tam++;
-                    printf("Numero %d incluido com sucesso!!!", id);
-                }
-            }
-            else{
-                if(aux->dir != NULL){
-                    adicionar(id, aux->dir);
-                }
-                else{
-                    aux->dir = novo;
-                    tam++;
-                    printf("Numero %d incluido com sucesso!!!", id);
-                }
-            }
-        }
-        else{
-            printf("ID %d nao pode ser adicionado!\nExistente da arvore.", id);
-        }
-    }
-
-}
-
-
-void in_ordem(VERTICE *aux){
-    //ImpressÃ£o dos dados da arvore em in-ordem
-    if(aux->esq != NULL){
-        in_ordem(aux->esq);
-    }
-    printf("%d, ", aux->id);
-    if(aux->dir != NULL){
-        in_ordem(aux->dir);
-    }
-}
-
+// ADD, BUSCA e REMOVER no documento e requisicao - em andamento
+// BUSCA no usuario - em andamento
+// estagiario add requisicao (nn precisa de validacao de usuario/login, tanto que estagiario nao e cadastrado) - em andamento
+// secretario remove requisicao e add documento - em andamento
+// trasportador remove documento - em andamento
 
 void menu(){
-    VERTICE *encontrado;
+    DOC * encontrado;
     int opcao;
     int id;
 
     do{
-        
-        printf("\n\n------------ Menu Arvore Binaria ------------\n");
-        printf("\n\t[1] Incluir Vertice\n");
-        printf("\t[2] Imprimir Pre-Ordem\n");
-        printf("\t[3] Imprimir In-Ordem\n");
-        printf("\t[4] Imprimir Pos-Ordem\n");
-        printf("\t[5] Buscar ID\n");
+
+        printf("\n\n------------ Menu Biblioteca ------------\n");
+        printf("\n\t[1] Adicionar Pedido\n");
+        printf("\t[2] Remover Pedido\n");
+        printf("\t[3] Remover Encomenda\n");
         printf("\t[0] Sair\n");
-        printf("\nQual a sua opcao? ");
+        printf("\nQual a sua opção? ");
         scanf("%d",&opcao);
 
-    
+
         switch(opcao){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
-                printf("\nDigite um numero: ");
-                scanf("%d",&id);
-                printf("\n------------ Menu Adicionar Numero ------------\n\n");
-                adicionar(id,raiz);
+                printf("\n------------ Menu Adicionar Pedido ------------\n\n");
+                printf("\nAdicionar Pedido: ");
+                // Funcao que pede dados e realiza a funcao
             break;
-            case 2://Nesse caso e realizado a impressao pre-ordem dos IDs da arvore
-                printf("\n------------ Menu Impressao Pre-Ordem ------------\n\n");
-                printf("\nImpressao Pre-Ordem: ");
-                pre_ordem(raiz);
+            case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
+                printf("\n------------ Menu Remover Pedido ------------\n\n");
+                printf("\nRemover Pedido: ");
+                // Funcao que pede dados e realiza a funcao
             break;
-            case 3://Nesse caso e realizado a impressao in-ordem dos IDs da arvore
-                printf("\n------------ Menu Impressao In-Ordem ------------\n\n");
-                printf("\nImpressao In-Ordem: ");
-                in_ordem(raiz);
+            case 3://Nesse caso se remove o documento de encomenda pelo transportador
+                printf("\n------------ Menu Remover Encomenda ------------\n\n");
+                printf("\nRemover Encomenda: ");
+                // Funcao que pede dados e realiza a funcao
             break;
-            case 4://Nesse caso e realizado a impressao pos-ordem dos IDs da arvore
-                printf("\n------------ Menu Impressao Pos-Ordem ------------\n\n");
-                printf("\nImpressao Pos-Ordem: ");
-                pos_ordem(raiz);
+            case 0:
+                printf("\nXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n");
             break;
-            case 5://Nesse caso e realizado busca do IDs na arvore
-                printf("\n------------ Menu Busca Arvore Binaria ------------\n\n");
-                printf("\nDigite o numero para procurar: ");
-                scanf("%d",&id);
-                if(buscar(id, raiz) != NULL){
-                    printf("\nNumero %d encontrado com sucesso :)", id);
-                }
-                else{
-                    printf("\nNumero %d nao encontrado :(", id);
-                }
+            default:
+                printf("\nXXXXXXXXXXXX Opção Inválida XXXXXXXXXXXX\n");
             break;
         }
     }while(opcao != 0);//Enquanto opcao for diferente de "0" o laco while continua
 }
 
 int main(){
+    // insercao de secretarios e transportadores aqui
+    //  !!!!!!!!!!!!!!!!!!!!!!!!
+    setlocale(LC_ALL, "Portuguese_Brazil");
     menu();//chama a funcao menu
-    printf("\nSaindo do sistema!!!\n\n");
-
     return 0;
 }
