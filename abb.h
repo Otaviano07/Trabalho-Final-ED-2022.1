@@ -1,15 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct Livro{
+
+    int id; //identificador
+    char * autor;
+    char * titulo;
+    char * assunto;
+    char * tipo;
+    struct Vertice * esq;
+    struct Vertice * dir;
+}LIVRO;
+
 typedef struct Vertice{
    
     //Dados iniciais da encomenda de um livro
-    int id; //identificador
+    int id; 
     char * nome_aluno;
     int matricula;
-    char * descricao;
-    
-    //mecanismo p/ unir nos!
+    struct Livro * livro;
     struct Vertice * esq;
     struct Vertice * dir;
 }VERTICE;
@@ -40,7 +49,7 @@ VERTICE* buscar(int id, VERTICE *aux){
 }
 
 
-void add_abb(int id, char *nome_aluno, int matricula, char *descricao){
+void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *tipo){
 
     VERTICE* aux = buscar(id, raiz);
     
@@ -52,7 +61,10 @@ void add_abb(int id, char *nome_aluno, int matricula, char *descricao){
         novo->id = id;
         novo->nome_aluno = nome_aluno;
         novo->matricula = matricula;
-        novo->descricao = descricao;
+        novo->livro->autor = autor;
+        novo->livro->titulo = titulo;
+        novo->livro->assunto = assunto;
+        novo->livro->tipo = tipo;
         novo->esq = NULL;
         novo->dir = NULL;
         
@@ -77,7 +89,7 @@ void in_ordem(VERTICE *aux){
     printf("%d\n", aux->id);
     printf("%s\n", aux->nome_aluno);
     printf("%d\n", aux->matricula);
-    printf("%s\n", aux->descricao);
+    printf("%s\n", aux->livro);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
         }
