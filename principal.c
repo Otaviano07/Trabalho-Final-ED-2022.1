@@ -1,10 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 #include "abb.h"
 #include "fila.h"
 
+void menu(){
+    DOCUMENTO * encontrado;
+    int opcao;
+    int id;
+
+    do{
+
+        printf("\n\n------------ Menu Biblioteca ------------\n");
+        printf("\n\t[1] Adicionar Pedido\n");
+        printf("\t[2] Remover Pedido\n");
+        printf("\t[3] Remover Encomenda\n");
+        printf("\t[0] Sair\n");
+        printf("\nQual a sua opção? ");
+        scanf("%d",&opcao);
+
+
+        switch(opcao){
+            case 1://Nesse caso o usuario adiciona um novo ID na arvore
+                printf("\n------------ Menu Adicionar Pedido ------------\n\n");
+                printf("\nAdicionar Pedido: ");
+                // Funcao que pede dados e realiza a funcao
+            break;
+            case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
+                printf("\n------------ Menu Remover Pedido ------------\n\n");
+                printf("\nRemover Pedido: ");
+                // Funcao que pede dados e realiza a funcao
+            break;
+            case 3://Nesse caso se remove o documento de encomenda pelo transportador
+                printf("\n------------ Menu Remover Encomenda ------------\n\n");
+                printf("\nRemover Encomenda: ");
+                // Funcao que pede dados e realiza a funcao
+            break;
+            case 0:
+                printf("\nXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n");
+            break;
+            default:
+                printf("\nXXXXXXXXXXXX Opção Inválida XXXXXXXXXXXX\n");
+            break;
+        }
+    }while(opcao != 0);//Enquanto opcao for diferente de "0" o laco while continua
+}
 
 int main(){
+    setlocale(LC_ALL, "Portuguese_Brazil");
     printf("\nSISTEMA DE ENCOMENDA DE LIVRO\n");
     int resp = -1;
     while(resp != 0){
@@ -18,7 +61,8 @@ int main(){
             //encomendar um livro
              printf(" Digite o nome do aluno:\n");
              char nome[100];
-             scanf("%s", &nome);
+            fflush(stdin);
+             scanf("%s[^\n]", &nome);
              //... matricula e descricao..
              //criar um funcao para gerar id unico (:D)
             //add_abb(id, nome, matricula, descricao);

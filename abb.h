@@ -2,30 +2,28 @@
 #include <stdlib.h>
 
 typedef struct Livro{
-
-    int id; //identificador
     char * autor;
     char * titulo;
     char * assunto;
     char * tipo;
-    struct Vertice * esq;
-    struct Vertice * dir;
 }LIVRO;
 
-typedef struct Vertice{
-   
-    //Dados iniciais da encomenda de um livro
+typedef struct Documento{
     int id; 
-    char * nome_aluno;
-    int matricula;
-    struct Livro * livro;
-    struct Vertice * esq;
-    struct Vertice * dir;
-}VERTICE;
+    int prioridade; 
+    int mat_aluno; 
+    char * nome_aluno; 
+    char * campus_livro; 
+    char * secretario;
+    struct Livro * detalhes_livro;
+    struct Documento * esq;
+    struct Documento * dir;
+}DOCUMENTO;
 
-VERTICE * raiz = NULL;
+DOCUMENTO * tree = NULL;
+int tam = 0;
 
-VERTICE* buscar(int id, VERTICE *aux){
+DOCUMENTO* buscar(int id, DOCUMENTO *aux){
     
     if(aux != NULL){
         if(aux->id == id){
@@ -48,28 +46,77 @@ VERTICE* buscar(int id, VERTICE *aux){
     }
 }
 
+DOCUMENTO* remover(DOCUMENTO *raiz, int id){
+    if(raiz == NULL){
+        return NULL;
+    }
+    else{
+        if(raiz->id == id){
+            if(raiz->esq == NULL && raiz->dir == NULL){
+                free(raiz);
+                return NULL;
+            }
+            else{
+                if(raiz->esq == NULL || raiz->dir == NULL){
+                    DOCUMENTO *aux;
+                    if(raiz->esq != NULL){
+                        aux = aux->esq;
+                    }
+                    else{
+                        aux = aux->dir;
+                    }
+                    free(aux);
+                    return aux;
+                }
+                else{
+                    DOCUMENTO *aux = raiz->esq;
+                    while(aux->dir != NULL){
+                        aux = aux->dir;
+                    }
+                        raiz->id = aux->id;
+                        aux->id = id;
+                        raiz->esq = remover(raiz->esq, id);                            
+                }
+            }
+        }
+        else{
+                if(id < raiz->id ){
+                    raiz->esq = remover(raiz->esq, id);
+                }
+                else{
+                    raiz->dir = remover(raiz->dir, id);
+                }
+                return raiz;
+            }
+    }
+}
 
-void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *tipo){
+void add_abb(int id, int prioridade, int matricula, char *nome_aluno, char *campus, char *secretario, char *autor, char *titulo, char *assunto, char *tipo){
 
-    VERTICE* aux = buscar(id, raiz);
+    DOCUMENTO* aux = buscar(id, tree);
     
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");
     }else{
         
-        VERTICE* novo = malloc(sizeof(VERTICE));
+        DOCUMENTO* novo = malloc(sizeof(DOCUMENTO));
         novo->id = id;
-        novo->nome_aluno = nome_aluno;
-        novo->matricula = matricula;
-        novo->livro->autor = autor;
-        novo->livro->titulo = titulo;
-        novo->livro->assunto = assunto;
-        novo->livro->tipo = tipo;
+        novo->prioridade = prioridade;
+        novo->mat_aluno = matricula;
+        novo->nome_aluno = nome_aluno;  
+        novo->campus_livro = campus;
+        novo->secretario = secretario;      
+        novo->detalhes_livro->titulo = titulo;
+        novo->detalhes_livro->autor = autor;      
+        novo->detalhes_livro->assunto = assunto;
+        novo->detalhes_livro->tipo = tipo;        
         novo->esq = NULL;
         novo->dir = NULL;
         
         if(aux == NULL){//arvore esta vazia
-            raiz = novo;
+            tree = novo;
+            tam++;
+            printf("Pedido de emprestimo recebido com sucesso");
         }else{
             if(id < aux->id){
                 aux->esq = novo;
@@ -81,22 +128,19 @@ void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo,
 }
 
 
-void in_ordem(VERTICE *aux){
+void in_ordem(DOCUMENTO *aux){
     
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
     printf("%d\n", aux->id);
     printf("%s\n", aux->nome_aluno);
-    printf("%d\n", aux->matricula);
-    printf("%s\n", aux->livro);
+    printf("%d\n", aux->mat_aluno);
+    printf("%s\n", aux->detalhes_livro->titulo);
+    printf("%s\n", aux->detalhes_livro->autor);
+    printf("%s\n", aux->detalhes_livro->assunto);
+    printf("%s\n", aux->detalhes_livro->tipo);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
         }
 }
-
-
-
-
-
-
