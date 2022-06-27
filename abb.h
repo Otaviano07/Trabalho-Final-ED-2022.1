@@ -15,7 +15,7 @@ typedef struct Documento{
     char * campus_livro; 
     char * secretario;
     char * data_pedido;
-    struct Livro * inf_livro;
+    struct Livro * detalhes_livro;
     struct Documento * esq;
     struct Documento * dir;
 }DOCUMENTO;
@@ -46,7 +46,7 @@ DOCUMENTO* buscar(int id, DOCUMENTO *aux){
     }
 }
 
-DOCUMENTO* remover(DOCUMENTO *raiz, int id){
+DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
     if(raiz == NULL){
         return NULL;
     }
@@ -75,23 +75,23 @@ DOCUMENTO* remover(DOCUMENTO *raiz, int id){
                     }
                         raiz->id = aux->id;
                         aux->id = id;
-                        raiz->esq = remover(raiz->esq, id);                            
+                        raiz->esq = remover(id, raiz->esq);                            
                 }
             }
         }
         else{
                 if(id < raiz->id ){
-                    raiz->esq = remover(raiz->esq, id);
+                    raiz->esq = remover(id, raiz->esq);
                 }
                 else{
-                    raiz->dir = remover(raiz->dir, id);
+                    raiz->dir = remover(id, raiz->dir);
                 }
                 return raiz;
             }
     }
 }
 
-void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *data_pedido){
+void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *data_pedido, DOCUMENTO *aux){
 
     DOCUMENTO* aux = buscar(id, tree);
     
@@ -107,21 +107,42 @@ void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo,
         novo->prioridade = NULL;
         novo->secretario = NULL;    
         novo->campus_livro = NULL;            
-        novo->inf_livro->titulo = NULL;
-        novo->inf_livro->autor = NULL;      
-        novo->inf_livro->assunto = NULL;     
+        novo->detalhes_livro->titulo = NULL;
+        novo->detalhes_livro->autor = NULL;      
+        novo->detalhes_livro->assunto = NULL;     
         novo->esq = NULL;
         novo->dir = NULL;
         
         if(aux == NULL){//arvore esta vazia
-            tree = novo;
+            aux = novo;
             tam++;
             printf("Pedido de emprestimo adicionado com sucesso em %s", novo->data_pedido);
         }else{
-            if(id < aux->id){
-                aux->esq = novo;
-            }else{
-                aux->dir = novo;
+            if(buscar(id, tree) == NULL){
+                if(novo->id < aux->id){
+                    
+                    if(aux->esq != NULL){
+                        add_abb(id, nome_aluno, matricula, autor, titulo, assunto, data_pedido, aux->esq);
+                    }
+                    else{
+                        aux->esq = novo;
+                        tam++;
+                        printf("\nPedido de emprestimo adicionado com sucesso em %s\n", novo->data_pedido);
+                    }
+                }
+                else{
+                    if(aux->dir != NULL){
+                        add_abb(id, nome_aluno, matricula, autor, titulo, assunto, data_pedido, aux->dir);
+                    }
+                    else{
+                        aux->dir = novo;
+                        tam++;
+                        printf("\nPedido de emprestimo adicionado com sucesso em %s\n", novo->data_pedido);
+                    }
+                }
+            }
+            else{
+                printf("\nPedido de emprestimo nao pode ser adicionado!\n");
             }
         }
     }
@@ -136,9 +157,9 @@ void in_ordem(DOCUMENTO *aux){
     printf("%d\n", aux->id);
     printf("%s\n", aux->nome_aluno);
     printf("%d\n", aux->mat_aluno);
-    printf("%s\n", aux->inf_livro->titulo);
-    printf("%s\n", aux->inf_livro->autor);
-    printf("%s\n", aux->inf_livro->assunto);
+    printf("%s\n", aux->detalhes_livro->titulo);
+    printf("%s\n", aux->detalhes_livro->autor);
+    printf("%s\n", aux->detalhes_livro->assunto);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
         }

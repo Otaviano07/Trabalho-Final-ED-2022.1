@@ -7,34 +7,35 @@
 
 #define TAM 50 
 
-typedef struct secretario{
+typedef struct usuario{
     int cpf;
     char * nome;
     char * senha;
-    struct secretario *prox;
-    struct secretario *ant;
-}SECRETARIO;
+    char * cargo;
+    struct usuario *prox;
+    struct usuario *ant;
+}USUARIO;
 
-SECRETARIO *new_sec = NULL;
-int id_sec = 0;
+USUARIO *new_user = NULL;
+int id_user = 0;
 
-void add_sec(char *nome, char *senha, int cpf){
-    SECRETARIO *novo = malloc(sizeof(SECRETARIO));
+void add_user(char *nome, char *senha, char *cargo, int cpf){
+    USUARIO *novo = malloc(sizeof(USUARIO));
     novo->nome = nome;
     novo->senha = senha;
     novo->cpf = cpf;
     novo->ant = NULL;
     novo->prox = NULL;
     
-    if(new_sec == NULL){ //lista vazia
-            new_sec = novo;
+    if(new_user == NULL){ //lista vazia
+            new_user = novo;
             fim = novo;
-            id_sec++;
+            id_user++;
     }else{
-        new_sec->ant = novo;
-        novo->prox = new_sec;
-        new_sec = novo;
-        id_sec++;
+        new_user->ant = novo;
+        novo->prox = new_user;
+        new_user = novo;
+        id_user++;
     }
 
 }
@@ -65,6 +66,20 @@ char temporizador()
     return data_Pedido;
 }
 
+void preCadastro(){
+
+    if(new_user== NULL){    
+        add_user("Igor", "500063","Secretario", 500063);
+        add_user("Otaviano", "411631", "Secretario", 411631);
+        add_user("guilherme", "511427", "Secretario", 511427);
+        add_user("Transportador_01", "111111", "Transportador", 111111);
+        add_user("Transportador_02", "222222", "Transportador", 222222);
+        add_user("Transportador_03", "333333", "Transportador", 333333);
+        add_user("Transportador_04", "444444", "Transportador", 444444);
+        add_user("Transportador_05", "555555", "Transportador", 555555);
+    }
+    
+}
 
 void menu(){
     DOCUMENTO * encontrado;
@@ -120,9 +135,7 @@ void menu(){
 
                 data_emp[TAM] = temporizador();
 
-            add_abb(id, nome, matricula, titulo, autor, assunto, data_emp);
-                
-                // Funcao que pede dados e realiza a funcao
+            add_abb(id, nome, matricula, titulo, autor, assunto, data_emp, tree);
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n------------ Menu Remover Pedido ------------\n\n");
@@ -158,12 +171,8 @@ void menu(){
 
 int main(){
     setlocale(LC_ALL, "Portuguese_Brazil");
-    
-    add_sec("Igor", "500063", 11111111111);
-    add_sec("Otaviano", "411631", 22222222222);
-    add_sec("Guilerme", "511427", 33333333333);
+    preCadastro();
     printf("\nSISTEMA DE ENCOMENDA DE LIVRO\n");
-
     menu();
     
     
