@@ -91,7 +91,7 @@ DOCUMENTO* remover(DOCUMENTO *raiz, int id){
     }
 }
 
-void add_abb(int id, int prioridade, int mat_aluno, char *nome_aluno, char *campus_livro, char *secretario, char *autor, char *titulo, char *assunto, char *data_pedido){
+void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *data_pedido){
 
     DOCUMENTO* aux = buscar(id, tree);
     
@@ -102,10 +102,10 @@ void add_abb(int id, int prioridade, int mat_aluno, char *nome_aluno, char *camp
         DOCUMENTO* novo = malloc(sizeof(DOCUMENTO));
         novo->id = id;
         novo->data_pedido = data_pedido;
-        novo->prioridade = NULL;
         novo->mat_aluno = matricula;
         novo->nome_aluno = nome_aluno;
-        novo->secretario = secretario;    
+        novo->prioridade = NULL;
+        novo->secretario = NULL;    
         novo->campus_livro = NULL;            
         novo->inf_livro->titulo = NULL;
         novo->inf_livro->autor = NULL;      
@@ -116,7 +116,7 @@ void add_abb(int id, int prioridade, int mat_aluno, char *nome_aluno, char *camp
         if(aux == NULL){//arvore esta vazia
             tree = novo;
             tam++;
-            printf("Pedido de emprestimo recebido com sucesso");
+            printf("Pedido de emprestimo adicionado com sucesso em %s", novo->data_pedido);
         }else{
             if(id < aux->id){
                 aux->esq = novo;

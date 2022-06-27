@@ -8,7 +8,6 @@
 #define TAM 50 
 
 typedef struct secretario{
-    int id_sec;
     int cpf;
     char * nome;
     char * senha;
@@ -16,17 +15,29 @@ typedef struct secretario{
     struct secretario *ant;
 }SECRETARIO;
 
-SECRETARIO *new = NULL;
-
+SECRETARIO *new_sec = NULL;
+int id_sec = 0;
 
 void add_sec(char *nome, char *senha, int cpf){
     SECRETARIO *novo = malloc(sizeof(SECRETARIO));
     novo->nome = nome;
     novo->senha = senha;
     novo->cpf = cpf;
-    new = novo;
-}
+    novo->ant = NULL;
+    novo->prox = NULL;
+    
+    if(new_sec == NULL){ //lista vazia
+            new_sec = novo;
+            fim = novo;
+            id_sec++;
+    }else{
+        new_sec->ant = novo;
+        novo->prox = new_sec;
+        new_sec = novo;
+        id_sec++;
+    }
 
+}
 
 int gerar_id(){
     int i;
@@ -41,17 +52,17 @@ int gerar_id(){
         
 }
 
-int main()
+char temporizador()
 {
     time_t tempo;
-    char dataPedido[50];
+    char data_Pedido[50];
 
     /* Recupera a quantidade de segundos desde 01/01/1970 */
     tempo = time(NULL);
 
-    strftime( dataPedido, sizeof(dataPedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo );
+    strftime(data_Pedido, sizeof(data_Pedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
 
-    return dataPedido;
+    return data_Pedido;
 }
 
 
@@ -107,6 +118,8 @@ void menu(){
                 __fpurge(stdin);
                 scanf("%s[^\n]", &assunto);
 
+                data_emp[TAM] = temporizador();
+
             add_abb(id, nome, matricula, titulo, autor, assunto, data_emp);
                 
                 // Funcao que pede dados e realiza a funcao
@@ -150,6 +163,7 @@ int main(){
     add_sec("Otaviano", "411631", 22222222222);
     add_sec("Guilerme", "511427", 33333333333);
     printf("\nSISTEMA DE ENCOMENDA DE LIVRO\n");
+
     menu();
     
     
