@@ -4,8 +4,43 @@
 #include "abb.h"
 #include "fila.h"
 
+#define TAM 50 
+
+typedef struct secretario{
+    int cpf;
+    char * nome;
+    char * senha;
+    struct secretario *prox;
+}SECRETARIO;
+
+SECRETARIO *new = NULL;
+
+
+void add_sec(char *nome, char *senha, int cpf){
+    SECRETARIO *novo = malloc(sizeof(SECRETARIO));
+    novo->nome = nome;
+    novo->senha = senha;
+    novo->cpf = cpf;
+    new = novo;
+}
+
+
+int gerar_id(){
+    int i;
+    do{
+        i = rand() % 100;
+    }while(buscar(i, tree) != NULL);
+        return i;
+        
+}
+
+
 void menu(){
     DOCUMENTO * encontrado;
+    char nome[TAM];
+    int matricula;
+    char titulo[TAM];
+    char autor[TAM];
     int opcao;
     int id;
 
@@ -24,6 +59,35 @@ void menu(){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
                 printf("\n------------ Menu Adicionar Pedido ------------\n\n");
                 printf("\nAdicionar Pedido: ");
+                //encomendar um livro
+                id = gerar_id();
+
+                printf(" Digite o nome do aluno:\n");
+                //fflush(stdin);
+                __fpurge(stdin);
+                scanf("%s[^\n]", &nome);
+
+                printf(" Digite a matricula:\n");
+                scanf("%d", &matricula);
+
+                printf(" Digite o titulo do livro:\n");
+                //fflush(stdin);
+                __fpurge(stdin);
+                scanf("%s[^\n]", &titulo);
+
+                printf(" Digite o autor:\n");
+                //fflush(stdin);
+                __fpurge(stdin);
+                scanf("%s[^\n]", &autor);
+
+
+
+
+
+            //... matricula e descricao..
+            //criar um funcao para gerar id unico (:D)
+            //add_abb(id, nome, matricula, descricao);
+                
                 // Funcao que pede dados e realiza a funcao
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
@@ -48,6 +112,8 @@ void menu(){
 
 int main(){
     setlocale(LC_ALL, "Portuguese_Brazil");
+    add_sec("igor", "123", 23423423);
+    add_sec("Otaviano", "ota123", 41163131161);
     printf("\nSISTEMA DE ENCOMENDA DE LIVRO\n");
     int resp = -1;
     while(resp != 0){
@@ -57,7 +123,7 @@ int main(){
         printf(" 0 - Sair do sistema!\n");
         printf("Digite a funcionalidade desejada:");
         scanf("%d", &resp);
-        /*if(resp == 1){
+        if(resp == 1){
             //encomendar um livro
              printf(" Digite o nome do aluno:\n");
              char nome[100];
@@ -98,7 +164,7 @@ int main(){
                     }
             }
         
-        }*/
+        }
         
     }
     
