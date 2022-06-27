@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <locale.h>
 #include "abb.h"
 #include "fila.h"
@@ -7,10 +8,12 @@
 #define TAM 50 
 
 typedef struct secretario{
+    int id_sec;
     int cpf;
     char * nome;
     char * senha;
     struct secretario *prox;
+    struct secretario *ant;
 }SECRETARIO;
 
 SECRETARIO *new = NULL;
@@ -27,27 +30,46 @@ void add_sec(char *nome, char *senha, int cpf){
 
 int gerar_id(){
     int i;
+    srand((unsigned)time(NULL));
+
     do{
-        i = rand() % 100;
-    }while(buscar(i, tree) != NULL);
-        return i;
+        i = (rand() % 100 -10) * (rand() % 100 -10);
+    //}while(buscar(i, tree) != NULL);
+    }while(i < 999);
+    
+    return i;
         
+}
+
+int main()
+{
+    time_t tempo;
+    char dataPedido[50];
+
+    /* Recupera a quantidade de segundos desde 01/01/1970 */
+    tempo = time(NULL);
+
+    strftime( dataPedido, sizeof(dataPedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo );
+
+    return dataPedido;
 }
 
 
 void menu(){
     DOCUMENTO * encontrado;
     char nome[TAM];
-    int matricula;
     char titulo[TAM];
     char autor[TAM];
-    int opcao;
+    char assunto[TAM];
+    char data_emp[TAM];
+    int matricula;
+    int opcao = -1;
     int id;
 
     do{
 
         printf("\n\n------------ Menu Biblioteca ------------\n");
-        printf("\n\t[1] Adicionar Pedido\n");
+        printf("\n\t[1] Adicionar Encomenda\n");
         printf("\t[2] Remover Pedido\n");
         printf("\t[3] Remover Encomenda\n");
         printf("\t[0] Sair\n");
@@ -80,13 +102,12 @@ void menu(){
                 __fpurge(stdin);
                 scanf("%s[^\n]", &autor);
 
+                printf(" Digite o assunto:\n");
+                //fflush(stdin);
+                __fpurge(stdin);
+                scanf("%s[^\n]", &assunto);
 
-
-
-
-            //... matricula e descricao..
-            //criar um funcao para gerar id unico (:D)
-            //add_abb(id, nome, matricula, descricao);
+            add_abb(id, nome, matricula, titulo, autor, assunto, data_emp);
                 
                 // Funcao que pede dados e realiza a funcao
             break;
@@ -99,6 +120,18 @@ void menu(){
                 printf("\n------------ Menu Remover Encomenda ------------\n\n");
                 printf("\nRemover Encomenda: ");
                 // Funcao que pede dados e realiza a funcao
+                               
+                //2 - verificar o usuario
+                    printf(" Digite seu cpf:\n");
+                    char cpf[100];
+                    scanf("%s", &cpf);
+                    printf(" Digite sua senha:\n");
+                    char senha[100];
+                    scanf("%s", &senha);
+                    //int retorno = verificar(cpf, senha);
+                    if(opcao == 1){
+                        //remover da fila de prioridade
+                    }
             break;
             case 0:
                 printf("\nXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n");
@@ -112,61 +145,13 @@ void menu(){
 
 int main(){
     setlocale(LC_ALL, "Portuguese_Brazil");
-    add_sec("igor", "123", 23423423);
-    add_sec("Otaviano", "ota123", 41163131161);
+    
+    add_sec("Igor", "500063", 11111111111);
+    add_sec("Otaviano", "411631", 22222222222);
+    add_sec("Guilerme", "511427", 33333333333);
     printf("\nSISTEMA DE ENCOMENDA DE LIVRO\n");
-    int resp = -1;
-    while(resp != 0){
-        printf(" 1 - Encomendar um livro.\n");
-        printf(" 2 - Remover uma encomenda de livro.\n");
-        printf(" 3 - Remover um pedido de livro.\n");
-        printf(" 0 - Sair do sistema!\n");
-        printf("Digite a funcionalidade desejada:");
-        scanf("%d", &resp);
-        if(resp == 1){
-            //encomendar um livro
-             printf(" Digite o nome do aluno:\n");
-             char nome[100];
-            fflush(stdin);
-             scanf("%s[^\n]", &nome);
-             //... matricula e descricao..
-             //criar um funcao para gerar id unico (:D)
-            //add_abb(id, nome, matricula, descricao);
-        }else if(resp == 2){
-            //remover uma encomenda de livro da ABB (id)
-            //para remover eu preciso:
-            //1 - visualizar as encomendas (in_ordem)
-            in_ordem();
-            //2 - verificar o usuario
-            printf(" Digite seu cpf:\n");
-            char cpf[100];
-            scanf("%s", &cpf);
-            printf(" Digite sua senha:\n");
-            char senha[100];
-            scanf("%s", &senha);
-            //int retorno = verificar(cpf, senha);
-            if(retorno == 1){
-                //3 - chama a funcao remover_abb por id (CADE ESSA FUNCAO?)
-                //4 - setar novos dados (faltando)
-                //5 - add_fila(....);
-            }else if(resp == 3){
-               
-                //2 - verificar o usuario
-                    printf(" Digite seu cpf:\n");
-                    char cpf[100];
-                    scanf("%s", &cpf);
-                    printf(" Digite sua senha:\n");
-                    char senha[100];
-                    scanf("%s", &senha);
-                    //int retorno = verificar(cpf, senha);
-                    if(retorno == 1){
-                        //remover da fila de prioridade
-                    }
-            }
-        
-        }
-        
-    }
+    menu();
+    
     
     return 0;
 }

@@ -5,7 +5,6 @@ typedef struct Livro{
     char * autor;
     char * titulo;
     char * assunto;
-    char * tipo;
 }LIVRO;
 
 typedef struct Documento{
@@ -15,7 +14,8 @@ typedef struct Documento{
     char * nome_aluno; 
     char * campus_livro; 
     char * secretario;
-    struct Livro * detalhes_livro;
+    char * data_pedido;
+    struct Livro * inf_livro;
     struct Documento * esq;
     struct Documento * dir;
 }DOCUMENTO;
@@ -91,7 +91,7 @@ DOCUMENTO* remover(DOCUMENTO *raiz, int id){
     }
 }
 
-void add_abb(int id, int prioridade, int matricula, char *nome_aluno, char *campus, char *secretario, char *autor, char *titulo, char *assunto, char *tipo){
+void add_abb(int id, int prioridade, int mat_aluno, char *nome_aluno, char *campus_livro, char *secretario, char *autor, char *titulo, char *assunto, char *data_pedido){
 
     DOCUMENTO* aux = buscar(id, tree);
     
@@ -101,15 +101,15 @@ void add_abb(int id, int prioridade, int matricula, char *nome_aluno, char *camp
         
         DOCUMENTO* novo = malloc(sizeof(DOCUMENTO));
         novo->id = id;
-        novo->prioridade = prioridade;
+        novo->data_pedido = data_pedido;
+        novo->prioridade = NULL;
         novo->mat_aluno = matricula;
-        novo->nome_aluno = nome_aluno;  
-        novo->campus_livro = campus;
-        novo->secretario = secretario;      
-        novo->detalhes_livro->titulo = titulo;
-        novo->detalhes_livro->autor = autor;      
-        novo->detalhes_livro->assunto = assunto;
-        novo->detalhes_livro->tipo = tipo;        
+        novo->nome_aluno = nome_aluno;
+        novo->secretario = secretario;    
+        novo->campus_livro = NULL;            
+        novo->inf_livro->titulo = NULL;
+        novo->inf_livro->autor = NULL;      
+        novo->inf_livro->assunto = NULL;     
         novo->esq = NULL;
         novo->dir = NULL;
         
@@ -136,10 +136,9 @@ void in_ordem(DOCUMENTO *aux){
     printf("%d\n", aux->id);
     printf("%s\n", aux->nome_aluno);
     printf("%d\n", aux->mat_aluno);
-    printf("%s\n", aux->detalhes_livro->titulo);
-    printf("%s\n", aux->detalhes_livro->autor);
-    printf("%s\n", aux->detalhes_livro->assunto);
-    printf("%s\n", aux->detalhes_livro->tipo);
+    printf("%s\n", aux->inf_livro->titulo);
+    printf("%s\n", aux->inf_livro->autor);
+    printf("%s\n", aux->inf_livro->assunto);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
         }
