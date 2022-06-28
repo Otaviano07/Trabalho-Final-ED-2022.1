@@ -53,19 +53,6 @@ int gerar_id(){
 
 }
 
-char temporizador()
-{
-    time_t tempo;
-    char data_Pedido[TAM];
-
-    /* Recupera a quantidade de segundos desde 01/01/1970 */
-    tempo = time(NULL);
-
-    strftime(data_Pedido, sizeof(data_Pedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
-
-    return data_Pedido[TAM];
-}
-
 void preCadastro(){
 
     if(new_user== NULL){    
@@ -89,12 +76,18 @@ void menu(){
     char assunto[TAM];
     //char data_emp[TAM];
     int matricula;
-    int opcao = -1;
+    int opcao;
     int id;
 
-    do{
+    time_t tempo;
+    char data_Pedido[TAM];
+    tempo = time(NULL);
+    strftime(data_Pedido, sizeof(data_Pedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
 
-        printf("\n\n------------ Menu Biblioteca ------------\n");
+    do{
+        system("cls");
+        printf("\n------------ SISTEMA DE ENCOMENDA DE LIVRO ------------\n");
+        printf("\t------------ Menu Biblioteca ------------\n");
         printf("\n\t[1] Adicionar Encomenda\n");
         printf("\t[2] Remover Pedido\n");
         printf("\t[3] Remover Encomenda\n");
@@ -106,27 +99,28 @@ void menu(){
         switch(opcao){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
                 printf("\n------------ Menu Adicionar Encomenda ------------\n\n");
-                //encomendar um livro
                 id = gerar_id();
 
-                printf(" Digite o nome do aluno:\n");
+                printf(" Digite o nome do aluno: ");
+                fflush(stdin);
                 scanf("%s[^\n]", &nome);
 
-                printf(" Digite a matricula:\n");
+                printf(" Digite a matricula: ");
                 scanf("%d", &matricula);
 
-                printf(" Digite o titulo do livro:\n");
+                printf(" Digite o titulo do livro: ");
+                fflush(stdin);
                 scanf("%s[^\n]", &titulo);
 
-                printf(" Digite o autor:\n");
+                printf(" Digite o autor: ");
+                fflush(stdin);
                 scanf("%s[^\n]", &autor);
 
-                printf(" Digite o assunto:\n");
+                printf(" Digite o assunto: ");
+                fflush(stdin);       
                 scanf("%s[^\n]", &assunto);
 
-                //data_emp[TAM] = temporizador();
-
-            add_abb(id, nome, matricula, autor, titulo, assunto, tree);
+            add_abb(id, nome, matricula, autor, titulo, assunto, data_Pedido, tree);
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n------------ Menu Remover Pedido ------------\n\n");
@@ -155,7 +149,7 @@ void menu(){
                 printf("\nXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n");
             break;
             default:
-                printf("\nXXXXXXXXXXXX Opção Inválida XXXXXXXXXXXX\n");
+                printf("\nXXXXXXXXXXXX Opcao Invalida XXXXXXXXXXXX\n");
             break;
         }
     }while(opcao != 0);//Enquanto opcao for diferente de "0" o laco while continua
@@ -164,7 +158,6 @@ void menu(){
 int main(){
     setlocale(LC_ALL, "Portuguese_Brazil");
     preCadastro();
-    printf("\nSISTEMA DE ENCOMENDA DE LIVRO\n");
     menu();
     
     
