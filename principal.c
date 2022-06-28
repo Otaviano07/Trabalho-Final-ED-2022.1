@@ -87,7 +87,7 @@ void menu(){
     char titulo[TAM];
     char autor[TAM];
     char assunto[TAM];
-    char data_emp[TAM];
+    //char data_emp[TAM];
     int matricula;
     int opcao = -1;
     int id;
@@ -105,40 +105,28 @@ void menu(){
 
         switch(opcao){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
-                printf("\n------------ Menu Adicionar Pedido ------------\n\n");
+                printf("\n------------ Menu Adicionar Encomenda ------------\n\n");
                 //encomendar um livro
                 id = gerar_id();
 
                 printf(" Digite o nome do aluno:\n");
-                //fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
                 scanf("%s[^\n]", &nome);
 
                 printf(" Digite a matricula:\n");
                 scanf("%d", &matricula);
 
                 printf(" Digite o titulo do livro:\n");
-                //fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
                 scanf("%s[^\n]", &titulo);
 
                 printf(" Digite o autor:\n");
-                //fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
                 scanf("%s[^\n]", &autor);
 
                 printf(" Digite o assunto:\n");
-                //fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
                 scanf("%s[^\n]", &assunto);
 
-                data_emp[TAM] = temporizador();
+                //data_emp[TAM] = temporizador();
 
-            add_abb(id, nome, matricula, autor, titulo, assunto, data_emp, tree);
+            add_abb(id, nome, matricula, autor, titulo, assunto, tree);
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n------------ Menu Remover Pedido ------------\n\n");
@@ -150,10 +138,6 @@ void menu(){
                 printf("\n------------ Menu Remover Encomenda ------------\n\n");
                 in_ordem(tree);
                 printf("\n\nRemover Encomenda: ");
-
-
-                remover(id, tree);
-                // Funcao que pede dados e realiza a funcao
                                
                 //2 - verificar o usuario
                     printf(" Digite seu cpf:\n");
