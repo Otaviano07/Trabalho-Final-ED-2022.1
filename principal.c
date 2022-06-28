@@ -6,7 +6,9 @@
 #include "abb.h"
 #include "fila.h"
 
-#define TAM 50 
+#define TAM 50
+#define CPF 11
+#define SENHA 6 
 
 typedef struct usuario{
     int cpf;
@@ -86,7 +88,7 @@ void menu(){
 
     do{
         system("cls");
-        printf("\n------------ SISTEMA DE ENCOMENDA DE LIVRO ------------\n");
+        printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
         printf("\t------------ Menu Biblioteca ------------\n");
         printf("\n\t[1] Adicionar Encomenda\n");
         printf("\t[2] Remover Pedido\n");
@@ -98,7 +100,8 @@ void menu(){
 
         switch(opcao){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
-                printf("\n------------ Menu Adicionar Encomenda ------------\n\n");
+                printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                printf("\t-------- Menu Adicionar Encomenda -------\n\n");
                 id = gerar_id();
 
                 printf(" Digite o nome do aluno: ");
@@ -123,33 +126,39 @@ void menu(){
             add_abb(id, nome, matricula, autor, titulo, assunto, data_Pedido, tree);
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
-                printf("\n------------ Menu Remover Pedido ------------\n\n");
+                printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                printf("\t---------- Menu Remover Pedido ----------\n\n");
                 printf("\nRemover Pedido: ");
+                system("pause");
 
                 // Funcao que pede dados e realiza a funcao
             break;
             case 3://Nesse caso se remove o documento de encomenda pelo transportador
-                printf("\n------------ Menu Remover Encomenda ------------\n\n");
-                in_ordem(tree);
-                printf("\n\nRemover Encomenda: ");
-                               
-                //2 - verificar o usuario
-                    printf(" Digite seu cpf:\n");
-                    char cpf[100];
-                    scanf("%s", &cpf);
-                    printf(" Digite sua senha:\n");
-                    char senha[100];
-                    scanf("%s", &senha);
+                printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                printf("\t--------- Menu Remover Encomenda --------\n\n");
+                printf("\n\nAtenção!!! Para remover encomenta o usuario precisa ser algum secretario, "
+                        "\npara continuar precione qualquer tecla e informe seus dados de usuario.\n");
+                system("pause");
+
+                printf(" Digite seu cpf:\n");
+                    char cpf[CPF];
+                scanf("%s", &cpf);
+                printf(" Digite sua senha:\n");
+                    char senha[SENHA];
+                scanf("%s", &senha);
                     //int retorno = verificar(cpf, senha);
-                    if(opcao == 1){
+                if(opcao == 1){
                         //remover da fila de prioridade
-                    }
+                }
             break;
             case 0:
-                printf("\nXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n");
+                system("cls");
+                printf("\n\tXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n\n");
             break;
             default:
-                printf("\nXXXXXXXXXXXX Opcao Invalida XXXXXXXXXXXX\n");
+                system("cls");
+                printf("\n\tXXXXXXXXXXX Opcao Invalida XXXXXXXXXXXX\n\n");
+                system("pause");
             break;
         }
     }while(opcao != 0);//Enquanto opcao for diferente de "0" o laco while continua

@@ -21,7 +21,7 @@ typedef struct Documento{
     struct Documento * dir;
 }DOCUMENTO;
 
-DOCUMENTO * tree = NULL;
+DOCUMENTO *tree = NULL;
 int item = 0;
 
 DOCUMENTO* buscar(int id, DOCUMENTO *aux){
@@ -93,8 +93,9 @@ DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
 }
 
 void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *data, DOCUMENTO *aux){
-
+    printf("\nAntes da busca\n");
     aux = buscar(id, tree);
+    printf("\nPassou da busca\n");
     
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");     
