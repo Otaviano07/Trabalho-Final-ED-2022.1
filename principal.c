@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <locale.h>
 #include "abb.h"
@@ -29,7 +30,6 @@ void add_user(char *nome, char *senha, char *cargo, int cpf){
     
     if(new_user == NULL){ //lista vazia
             new_user = novo;
-            fim = novo;
             id_user++;
     }else{
         new_user->ant = novo;
@@ -50,20 +50,20 @@ int gerar_id(){
     }while(i < 999);
     
     return i;
-        
+
 }
 
 char temporizador()
 {
     time_t tempo;
-    char data_Pedido[50];
+    char data_Pedido[TAM];
 
     /* Recupera a quantidade de segundos desde 01/01/1970 */
     tempo = time(NULL);
 
     strftime(data_Pedido, sizeof(data_Pedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
 
-    return data_Pedido;
+    return data_Pedido[TAM];
 }
 
 void preCadastro(){
@@ -99,20 +99,20 @@ void menu(){
         printf("\t[2] Remover Pedido\n");
         printf("\t[3] Remover Encomenda\n");
         printf("\t[0] Sair\n");
-        printf("\nQual a sua opção? ");
+        printf("\nQual a sua opcao? ");
         scanf("%d",&opcao);
 
 
         switch(opcao){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
                 printf("\n------------ Menu Adicionar Pedido ------------\n\n");
-                printf("\nAdicionar Pedido: ");
                 //encomendar um livro
                 id = gerar_id();
 
                 printf(" Digite o nome do aluno:\n");
                 //fflush(stdin);
-                __fpurge(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &nome);
 
                 printf(" Digite a matricula:\n");
@@ -120,31 +120,39 @@ void menu(){
 
                 printf(" Digite o titulo do livro:\n");
                 //fflush(stdin);
-                __fpurge(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &titulo);
 
                 printf(" Digite o autor:\n");
                 //fflush(stdin);
-                __fpurge(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &autor);
 
                 printf(" Digite o assunto:\n");
                 //fflush(stdin);
-                __fpurge(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &assunto);
 
                 data_emp[TAM] = temporizador();
 
-            add_abb(id, nome, matricula, titulo, autor, assunto, data_emp, tree);
+            add_abb(id, nome, matricula, autor, titulo, assunto, data_emp, tree);
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n------------ Menu Remover Pedido ------------\n\n");
                 printf("\nRemover Pedido: ");
+
                 // Funcao que pede dados e realiza a funcao
             break;
             case 3://Nesse caso se remove o documento de encomenda pelo transportador
                 printf("\n------------ Menu Remover Encomenda ------------\n\n");
-                printf("\nRemover Encomenda: ");
+                in_ordem(tree);
+                printf("\n\nRemover Encomenda: ");
+
+
+                remover(id, tree);
                 // Funcao que pede dados e realiza a funcao
                                
                 //2 - verificar o usuario
