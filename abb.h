@@ -1,16 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Livro{
-    char * autor;
-    char * titulo;
-    char * assunto;
-}LIVRO;
-
 typedef struct Documento{
     int id; 
     int prioridade; 
-    int mat_aluno; 
+    int mat_aluno;
+    int cod_livro;
+    char * autor;
+    char * titulo;
+    char * assunto;
     char * nome_aluno; 
     char * campus_livro;
     char * campus_aluno;  
@@ -92,10 +90,9 @@ DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
     }
 }
 
-void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo, char *assunto, char *data, DOCUMENTO *aux){
-    printf("\nAntes da busca\n");
+void add_abb(int id, char *nome_aluno, int matricula, int codigo, char *autor, char *titulo, char *assunto, char *data, DOCUMENTO *aux){
+    
     aux = buscar(id, tree);
-    printf("\nPassou da busca\n");
     
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");     
@@ -103,12 +100,13 @@ void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo,
         
         DOCUMENTO* novo = malloc(sizeof(DOCUMENTO));
         novo->id = id;
-        //novo->data_pedido = data_pedido;
+        novo->data_pedido = data;
         novo->mat_aluno = matricula;
-        novo->nome_aluno = nome_aluno;          
-        novo->detalhes_livro->titulo = titulo;
-        novo->detalhes_livro->autor = autor;      
-        novo->detalhes_livro->assunto = assunto;
+        novo->nome_aluno = nome_aluno;
+        novo->cod_livro = codigo;          
+        novo->titulo = titulo;
+        novo->autor = autor;      
+        novo->assunto = assunto;
         novo->prioridade = 0;
         novo->secretario = NULL;    
         novo->campus_livro = NULL;
@@ -116,16 +114,16 @@ void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo,
         novo->esq = NULL;
         novo->dir = NULL;
         
-        if(aux == NULL){//arvore esta vazia
+        if(tree == NULL){//arvore esta vazia
             aux = novo;
             item++;
             printf("\nPedido de emprestimo adicionado com sucesso.\n");
-        }else{
-            if(buscar(id, tree) == NULL){
+        }
+        else{
                 if(novo->id < aux->id){
                     
                     if(aux->esq != NULL){
-                        add_abb(id, nome_aluno, matricula, autor, titulo, assunto, data, aux->esq);
+                        add_abb(id, nome_aluno, matricula, codigo, autor, titulo, assunto, data, aux->esq);
                     }
                     else{
                         aux->esq = novo;
@@ -135,7 +133,7 @@ void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo,
                 }
                 else{
                     if(aux->dir != NULL){
-                        add_abb(id, nome_aluno, matricula, autor, titulo, assunto, data, aux->dir);
+                        add_abb(id, nome_aluno, matricula, codigo, autor, titulo, assunto, data, aux->dir);
                     }
                     else{
                         aux->dir = novo;
@@ -143,10 +141,6 @@ void add_abb(int id, char *nome_aluno, int matricula, char *autor, char *titulo,
                         printf("\nPedido de emprestimo adicionado com sucesso.\n");
                     }
                 }
-            }
-            else{
-                printf("\nPedido de emprestimo nao pode ser adicionado!\n");
-            }
         }
     }
 }
@@ -157,12 +151,13 @@ void in_ordem(DOCUMENTO *aux){
         in_ordem(aux->esq);
     }
         printf("\nID: %d  ", aux->id);
-        printf("DATA: %s", aux->data_pedido);
+        printf("\tDATA: %s", aux->data_pedido);
         printf("\nALUNO: %s  ", aux->nome_aluno);
-        printf("MATRICULA: %d\n", aux->mat_aluno);  
-        printf("TITULO: %s ", aux->detalhes_livro->titulo);
-        printf("AUTOR: %s ", aux->detalhes_livro->autor);
-        printf("ASSUNTO: %s\n\n", aux->detalhes_livro->assunto);
+        printf("\tMATRICULA: %d\n", aux->mat_aluno);
+        printf("CODIGO: %s ", aux->cod_livro);  
+        printf("\tTITULO: %s ", aux->titulo);
+        printf("\tAUTOR: %s ", aux->autor);
+        printf("\tASSUNTO: %s\n\n", aux->assunto);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
     }

@@ -5,6 +5,7 @@
 #include <locale.h>
 #include "abb.h"
 #include "fila.h"
+//#include <stdio_ext.h>
 
 #define TAM 50
 #define CPF 11
@@ -76,15 +77,15 @@ void menu(){
     char titulo[TAM];
     char autor[TAM];
     char assunto[TAM];
-    //char data_emp[TAM];
+    char data[TAM];
+    int codigo;
     int matricula;
     int opcao;
     int id;
 
     time_t tempo;
-    char data_Pedido[TAM];
     tempo = time(NULL);
-    strftime(data_Pedido, sizeof(data_Pedido), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
+    strftime(data, sizeof(data), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
 
     do{
         system("cls");
@@ -94,42 +95,55 @@ void menu(){
         printf("\t[2] Remover Pedido\n");
         printf("\t[3] Remover Encomenda\n");
         printf("\t[0] Sair\n");
-        printf("\nQual a sua opcao? ");
+        printf("\n\tQual a sua opcao? ");
         scanf("%d",&opcao);
 
 
         switch(opcao){
             case 1://Nesse caso o usuario adiciona um novo ID na arvore
+                //system("clear");
+                system("cls");
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t-------- Menu Adicionar Encomenda -------\n\n");
                 id = gerar_id();
-
-                printf(" Digite o nome do aluno: ");
+                printf("\tNome do aluno: ");
                 fflush(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &nome);
 
-                printf(" Digite a matricula: ");
+                printf("\tMatricula do aluno: ");
                 scanf("%d", &matricula);
 
-                printf(" Digite o titulo do livro: ");
+                printf("\tCodigo do livro: ");
+                scanf("%d", &codigo);
+
+                printf("\tTitulo do livro: ");
                 fflush(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &titulo);
 
-                printf(" Digite o autor: ");
+                printf("\tAutor do livro: ");
                 fflush(stdin);
+                //__fpurge(stdin);
+                getchar();
                 scanf("%s[^\n]", &autor);
 
-                printf(" Digite o assunto: ");
-                fflush(stdin);       
+                printf("\tAssunto do livro: ");
+                fflush(stdin);
+                //__fpurge(stdin);
+                getchar();       
                 scanf("%s[^\n]", &assunto);
+                
+                add_abb(id, nome, matricula, codigo, autor, titulo, assunto, data, tree);
 
-            add_abb(id, nome, matricula, autor, titulo, assunto, data_Pedido, tree);
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t---------- Menu Remover Pedido ----------\n\n");
                 printf("\nRemover Pedido: ");
-                system("pause");
+                //system("pause");
 
                 // Funcao que pede dados e realiza a funcao
             break;
@@ -138,7 +152,7 @@ void menu(){
                 printf("\t--------- Menu Remover Encomenda --------\n\n");
                 printf("\n\nAtenção!!! Para remover encomenta o usuario precisa ser algum secretario, "
                         "\npara continuar precione qualquer tecla e informe seus dados de usuario.\n");
-                system("pause");
+                //system("pause");
 
                 printf(" Digite seu cpf:\n");
                     char cpf[CPF];
@@ -152,22 +166,27 @@ void menu(){
                 }
             break;
             case 0:
+                //system("clear");
                 system("cls");
                 printf("\n\tXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n\n");
+                system("pause");
             break;
             default:
+                //system("clear");
                 system("cls");
                 printf("\n\tXXXXXXXXXXX Opcao Invalida XXXXXXXXXXXX\n\n");
                 system("pause");
             break;
         }
-    }while(opcao != 0);//Enquanto opcao for diferente de "0" o laco while continua
+    }while(opcao != 0);
 }
 
 int main(){
+    add_abb(gerar_id(), "Otaviano", 411631, 123456, "Jesus", "Apocalipse", "Revelacao", "30/06/2022 19:25:37", tree);
     setlocale(LC_ALL, "Portuguese_Brazil");
     preCadastro();
     menu();
+    in_ordem(tree);
     
     
     return 0;
