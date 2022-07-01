@@ -90,6 +90,7 @@ void menu(){
     char data[TAM];
     int matricula;
     int opcao;
+    int escolha;
     int id;
 
     time_t tempo;
@@ -109,40 +110,47 @@ void menu(){
 
 
         switch(opcao){
-            case 1://Nesse caso o usuario adiciona um novo ID na arvore
-                //system("clear");
-                system("cls");
-                printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
-                printf("\t-------- Menu Adicionar Encomenda -------\n\n");
+            case 1:
+                do{
+                    id = gerar_id();
+                    system("cls");
+                    printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                    printf("\t-------- Menu Adicionar Encomenda -------\n\n");
+                    
+                    printf("\tPedido: %d", id);
+                    printf("\n\tNome do aluno: ");
+                    fflush(stdin);
+                    scanf("%[^\n]s", &nome);
 
-                id = gerar_id();
+                    printf("\tMatricula do aluno: ");
+                    scanf("%d", &matricula);
+    
+                    printf("\tDetalhes do livro: ");
+                    fflush(stdin);
+                    scanf("%[^\n]s", &livro);
 
-                printf("\tNome do aluno: ");
-                fflush(stdin);
-                scanf("%[^\n]s", &nome);
+                    //add_abb(id, data, nome, matricula, livro, tree);
 
-                printf("\tMatricula do aluno: ");
-                scanf("%d", &matricula);
- 
-                printf("\tDetalhes do livro: ");
-                fflush(stdin);
-                scanf("%[^\n]s", &livro);
+                    system("cls");
+                    printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                    printf("\t-------- Menu Adicionar Encomenda -------\n\n");
+                    printf("\n\tID: %d  ", id);
+                    printf("\tDATA: %s", data);
+                    printf("\n\tALUNO: %s  ", nome);
+                    printf("\n\tMATRICULA: %d", matricula);
+                    printf("\n\tLIVRO: %s\n\n", livro);
 
-                        printf("\nID: %d  ", id);
-                        printf("\tDATA: %s", data);
-                        printf("\nALUNO: %s  ", nome);
-                        printf("\tMATRICULA: %d\n", matricula);
-                        printf("\tLIVRO: %s\n\n", livro);
+                    printf("\tDeseja adicionar outro pedido? ");
+                    printf("\n\t[1] Sim ou [0] Nao\n\n");
+                    printf("\tEscolha: ");
+                    scanf("%d", &escolha);
 
-                        system("pause");
-                
-                add_abb(id, data, nome, matricula, livro, tree);
+                }while (escolha != 0 );
 
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t---------- Menu Remover Pedido ----------\n\n");
-                printf("\nRemover Pedido: ");
                 in_ordem(tree);
                 system("pause");
 

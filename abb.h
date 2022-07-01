@@ -91,6 +91,8 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
     
     aux = buscar(id, tree);
     
+    printf("\nBusca: %d\n", aux->id);
+
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");     
     }else{
