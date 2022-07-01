@@ -4,9 +4,9 @@
 typedef struct Documento{
     int id; 
     int prioridade; 
-    int mat_aluno;
+    int matricula;
     char * livro;
-    char * nome_aluno; 
+    char * nome_aluno;
     char * campus_livro;
     char * campus_aluno;  
     char * secretario;
@@ -98,7 +98,7 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
         DOCUMENTO* novo = malloc(sizeof(DOCUMENTO));
         novo->id = id;
         novo->data_pedido = data;
-        novo->mat_aluno = matricula;
+        novo->matricula = matricula;
         novo->nome_aluno = aluno;          
         novo->livro = livro;
         novo->prioridade = 0;
@@ -114,7 +114,6 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
             printf("\n1 Pedido de emprestimo adicionado com sucesso.\n");
         }
         else{
-            printf("\nOKadsfasd\n");
                 if(novo->id < aux->id){
                     
                     if(aux->esq != NULL){
@@ -144,10 +143,11 @@ void in_ordem(DOCUMENTO *aux){
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
-        printf("\nID: %d  ", aux->id);
+        printf("\n\tID: %d  ", aux->id);
         printf("\tDATA: %s", aux->data_pedido);
-        printf("\nALUNO: %s", aux->nome_aluno);
-        printf("\tLIVRO: %s\n\n", aux->livro);
+        printf("\n\tALUNO: %s", aux->nome_aluno);
+        printf("\n\tMatricula: %s", aux->matricula);
+        printf("\n\tLIVRO: %s\n\n", aux->livro);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
     }
