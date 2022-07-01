@@ -14,7 +14,6 @@ typedef struct Documento{
     char * campus_aluno;  
     char * secretario;
     char * data_pedido;
-    struct Livro * detalhes_livro;
     struct Documento * esq;
     struct Documento * dir;
 }DOCUMENTO;
@@ -90,7 +89,7 @@ DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
     }
 }
 
-void add_abb(int id, char *nome_aluno, int matricula, int codigo, char *autor, char *titulo, char *assunto, char *data, DOCUMENTO *aux){
+void add_abb(int id, char *data, char *nome_aluno, int matricula, int codigo, char *autor, char *titulo, char *assunto, DOCUMENTO *aux){
     
     aux = buscar(id, tree);
     
@@ -115,30 +114,31 @@ void add_abb(int id, char *nome_aluno, int matricula, int codigo, char *autor, c
         novo->dir = NULL;
         
         if(tree == NULL){//arvore esta vazia
-            aux = novo;
+            tree = novo;
             item++;
-            printf("\nPedido de emprestimo adicionado com sucesso.\n");
+            printf("\n1Pedido de emprestimo adicionado com sucesso.\n");
         }
         else{
+            printf("\nOKadsfasd\n");
                 if(novo->id < aux->id){
                     
                     if(aux->esq != NULL){
-                        add_abb(id, nome_aluno, matricula, codigo, autor, titulo, assunto, data, aux->esq);
+                        add_abb(id, data, nome_aluno, matricula, codigo, autor, titulo, assunto, aux->esq);
                     }
                     else{
                         aux->esq = novo;
                         item++;
-                        printf("\nPedido de emprestimo adicionado com sucesso.\n");
+                        printf("\nEPedido de emprestimo adicionado com sucesso.\n");
                     }
                 }
                 else{
                     if(aux->dir != NULL){
-                        add_abb(id, nome_aluno, matricula, codigo, autor, titulo, assunto, data, aux->dir);
+                        add_abb(id, data, nome_aluno, matricula, codigo, autor, titulo, assunto, aux->dir);
                     }
                     else{
                         aux->dir = novo;
                         item++;
-                        printf("\nPedido de emprestimo adicionado com sucesso.\n");
+                        printf("\nDPedido de emprestimo adicionado com sucesso.\n");
                     }
                 }
         }
@@ -146,7 +146,7 @@ void add_abb(int id, char *nome_aluno, int matricula, int codigo, char *autor, c
 }
 
 void in_ordem(DOCUMENTO *aux){
-    
+
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }

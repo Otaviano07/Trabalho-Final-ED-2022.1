@@ -49,8 +49,8 @@ int gerar_id(){
 
     do{
         i = (rand() % 100 -10) * (rand() % 100 -10);
-    //}while(buscar(i, tree) != NULL);
-    }while(i < 999);
+    }while(buscar(i, tree) != NULL);
+    //}while(i < 999);
     
     return i;
 
@@ -105,38 +105,43 @@ void menu(){
                 system("cls");
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t-------- Menu Adicionar Encomenda -------\n\n");
+
                 id = gerar_id();
+
                 printf("\tNome do aluno: ");
                 fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
-                scanf("%s[^\n]", &nome);
+                scanf("%[^\n]s", &nome);
 
                 printf("\tMatricula do aluno: ");
                 scanf("%d", &matricula);
-
+                
                 printf("\tCodigo do livro: ");
                 scanf("%d", &codigo);
 
                 printf("\tTitulo do livro: ");
                 fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
-                scanf("%s[^\n]", &titulo);
+                scanf("%[^\n]s", &titulo);
 
                 printf("\tAutor do livro: ");
                 fflush(stdin);
-                //__fpurge(stdin);
-                getchar();
-                scanf("%s[^\n]", &autor);
+                scanf("%[^\n]s", &autor);
 
                 printf("\tAssunto do livro: ");
                 fflush(stdin);
-                //__fpurge(stdin);
-                getchar();       
-                scanf("%s[^\n]", &assunto);
+                scanf("%[^\n]s", &assunto);
+
+                        printf("\nID: %d  ", id);
+                        printf("\tDATA: %s", data);
+                        printf("\nALUNO: %s  ", nome);
+                        printf("\tMATRICULA: %d\n", matricula);
+                        printf("CODIGO: %s ", codigo);  
+                        printf("\tTITULO: %s ", titulo);
+                        printf("\tAUTOR: %s ", autor);
+                        printf("\tASSUNTO: %s\n\n", assunto);
+
+                        system("pause");
                 
-                add_abb(id, nome, matricula, codigo, autor, titulo, assunto, data, tree);
+                //add_abb(id, data, nome, matricula, codigo, autor, titulo, assunto, tree);
 
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
@@ -182,10 +187,15 @@ void menu(){
 }
 
 int main(){
-    add_abb(gerar_id(), "Otaviano", 411631, 123456, "Jesus", "Apocalipse", "Revelacao", "30/06/2022 19:25:37", tree);
+    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
+    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
+    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
+    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
+    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
+    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
     setlocale(LC_ALL, "Portuguese_Brazil");
     preCadastro();
-    menu();
+   //menu();
     in_ordem(tree);
     
     
