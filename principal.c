@@ -17,25 +17,24 @@ typedef struct usuario{
     char * senha;
     char * cargo;
     struct usuario *prox;
-    struct usuario *ant;
 }USUARIO;
 
 USUARIO *new_user = NULL;
 int id_user = 0;
 
 void add_user(char *nome, char *senha, char *cargo, int cpf){
+    
     USUARIO *novo = malloc(sizeof(USUARIO));
     novo->nome = nome;
     novo->senha = senha;
     novo->cpf = cpf;
-    novo->ant = NULL;
+    novo->cargo = cargo;
     novo->prox = NULL;
     
     if(new_user == NULL){ //lista vazia
             new_user = novo;
             id_user++;
     }else{
-        new_user->ant = novo;
         novo->prox = new_user;
         new_user = novo;
         id_user++;
@@ -45,20 +44,21 @@ void add_user(char *nome, char *senha, char *cargo, int cpf){
 
 int gerar_id(){
     int i;
+    int b;
+
     srand((unsigned)time(NULL));
 
     do{
         i = (rand() % 100 -10) * (rand() % 100 -10);
-    }while(buscar(i, tree) != NULL);
-    //}while(i < 999);
-    
+    }while(i < 999 );
+
     return i;
 
 }
 
 void preCadastro(){
 
-    if(new_user== NULL){    
+    if(new_user == NULL){    
         add_user("Igor", "500063","Secretario", 500063);
         add_user("Otaviano", "411631", "Secretario", 411631);
         add_user("guilherme", "511427", "Secretario", 511427);
@@ -71,14 +71,23 @@ void preCadastro(){
     
 }
 
+void imp_user(){
+    USUARIO * aux = new_user;
+    for(int i = 0; i < id_user; i++){
+        printf("CPF: %d\n", aux->cpf);
+         printf("Nome: %s\n", aux->nome);
+          printf("Senha: %s\n", aux->senha);
+           printf("Cargo: %s\n\n", aux->cargo);
+
+            aux = aux->prox;
+    }
+}
+
 void menu(){
     DOCUMENTO * encontrado;
     char nome[TAM];
-    char titulo[TAM];
-    char autor[TAM];
-    char assunto[TAM];
+    char livro[TAM];
     char data[TAM];
-    int codigo;
     int matricula;
     int opcao;
     int id;
@@ -114,41 +123,28 @@ void menu(){
 
                 printf("\tMatricula do aluno: ");
                 scanf("%d", &matricula);
-                
-                printf("\tCodigo do livro: ");
-                scanf("%d", &codigo);
-
-                printf("\tTitulo do livro: ");
+ 
+                printf("\tDetalhes do livro: ");
                 fflush(stdin);
-                scanf("%[^\n]s", &titulo);
-
-                printf("\tAutor do livro: ");
-                fflush(stdin);
-                scanf("%[^\n]s", &autor);
-
-                printf("\tAssunto do livro: ");
-                fflush(stdin);
-                scanf("%[^\n]s", &assunto);
+                scanf("%[^\n]s", &livro);
 
                         printf("\nID: %d  ", id);
                         printf("\tDATA: %s", data);
                         printf("\nALUNO: %s  ", nome);
                         printf("\tMATRICULA: %d\n", matricula);
-                        printf("CODIGO: %s ", codigo);  
-                        printf("\tTITULO: %s ", titulo);
-                        printf("\tAUTOR: %s ", autor);
-                        printf("\tASSUNTO: %s\n\n", assunto);
+                        printf("\tLIVRO: %s\n\n", livro);
 
                         system("pause");
                 
-                //add_abb(id, data, nome, matricula, codigo, autor, titulo, assunto, tree);
+                add_abb(id, data, nome, matricula, livro, tree);
 
             break;
             case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t---------- Menu Remover Pedido ----------\n\n");
                 printf("\nRemover Pedido: ");
-                //system("pause");
+                in_ordem(tree);
+                system("pause");
 
                 // Funcao que pede dados e realiza a funcao
             break;
@@ -187,17 +183,15 @@ void menu(){
 }
 
 int main(){
-    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-    add_abb(gerar_id(), "30/06/2022 19:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-    setlocale(LC_ALL, "Portuguese_Brazil");
-    preCadastro();
-   //menu();
-    in_ordem(tree);
+    //add_abb(gerar_id(), "01/07/2022 13:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
+
     
+    setlocale(LC_ALL, "Portuguese_Brazil");
+   // preCadastro();
+   menu();
+   // in_ordem(tree);
+    //imp_user();
+    //gerar_id();
     
     return 0;
 }
