@@ -8,21 +8,40 @@
 //#include <stdio_ext.h>
 
 #define TAM 50
-#define CPF 11
-#define SENHA 6 
+
+char atual[TAM];
 
 typedef struct usuario{
     int cpf;
-    char * nome;
-    char * senha;
-    char * cargo;
+    int senha;
+    char *nome;
+    char *cargo;
     struct usuario *prox;
 }USUARIO;
 
 USUARIO *new_user = NULL;
-int id_user = 0;
+USUARIO *fim_user = NULL;
+int user = 0;
 
-void add_user(char *nome, char *senha, char *cargo, int cpf){
+USUARIO *busca_user(int cpf, int senha, USUARIO *aux){
+    printf("Linha 26\n");
+    printf("CPF Enviado: %d\n",cpf);
+    printf("SENHA Enviada: %d\n\n", senha);
+
+    if(aux != NULL){
+        if(aux->cpf == cpf && aux->senha == senha){
+            return aux;
+        }
+        else{
+            printf("Linha 34\n");
+            busca_user(cpf, senha, aux->prox);
+        }
+    }else{
+        return NULL;
+    }
+}
+
+void add_user(int cpf, int senha, char *nome, char *cargo){
     
     USUARIO *novo = malloc(sizeof(USUARIO));
     novo->nome = nome;
@@ -31,15 +50,24 @@ void add_user(char *nome, char *senha, char *cargo, int cpf){
     novo->cargo = cargo;
     novo->prox = NULL;
     
-    if(new_user == NULL){ //lista vazia
+    if(new_user == NULL){
             new_user = novo;
-            id_user++;
+            fim_user = novo;
+            user++;
     }else{
-        novo->prox = new_user;
-        new_user = novo;
-        id_user++;
+        fim_user->prox = novo;
+        fim_user = novo;
+        user++;
     }
 
+}
+
+void data_atual(){
+
+    time_t tempo;
+    tempo = time(NULL);
+    strftime(atual, sizeof(atual), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
+    
 }
 
 int gerar_id(){
@@ -59,43 +87,43 @@ int gerar_id(){
 void preCadastro(){
 
     if(new_user == NULL){    
-        add_user("Igor", "500063","Secretario", 500063);
-        add_user("Otaviano", "411631", "Secretario", 411631);
-        add_user("guilherme", "511427", "Secretario", 511427);
-        add_user("Transportador_01", "111111", "Transportador", 111111);
-        add_user("Transportador_02", "222222", "Transportador", 222222);
-        add_user("Transportador_03", "333333", "Transportador", 333333);
-        add_user("Transportador_04", "444444", "Transportador", 444444);
-        add_user("Transportador_05", "555555", "Transportador", 555555);
+        add_user(500063, 500063, "Igor", "Secretario");
+        add_user(411631, 411631, "Otaviano", "Secretario");
+        add_user(511427, 511427, "guilherme", "Secretario");
+        add_user(111111, 111111, "Transportador_01", "Transportador");
+        add_user(222222, 222222, "Transportador_02", "Transportador");
+        add_user(333333, 333333, "Transportador_03", "Transportador");
+        add_user(444444, 444444, "Transportador_04", "Transportador");
+        add_user(555555, 555555, "Transportador_05", "Transportador");
     }
     
 }
 
 void imp_user(){
     USUARIO * aux = new_user;
-    for(int i = 0; i < id_user; i++){
-        printf("CPF: %d\n", aux->cpf);
-         printf("Nome: %s\n", aux->nome);
-          printf("Senha: %s\n", aux->senha);
-           printf("Cargo: %s\n\n", aux->cargo);
-
-            aux = aux->prox;
+    for(int i = 0; i < user; i++){
+        printf("\tCPF: %d\n", aux->cpf);
+        printf("\tNome: %s\n", aux->nome);
+        printf("\tSenha: %d\n", aux->senha);
+        printf("\tCargo: %s\n\n", aux->cargo);
+        aux = aux->prox;
     }
 }
 
 void menu(){
-    DOCUMENTO * encontrado;
+    USUARIO * encontrado;
     char nome[TAM];
     char livro[TAM];
     char data[TAM];
     int matricula;
-    int opcao;
     int escolha;
+    int cpf;
+    int senha;
+    int opcao;    
     int id;
 
-    time_t tempo;
-    tempo = time(NULL);
-    strftime(data, sizeof(data), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
+    data_atual();
+    strcpy(data, atual);
 
     do{
         system("cls");
@@ -118,6 +146,7 @@ void menu(){
                     printf("\t-------- Menu Adicionar Encomenda -------\n\n");
                     
                     printf("\tPedido: %d", id);
+                    printf("\tDATA: %s", data);
                     printf("\n\tNome do aluno: ");
                     fflush(stdin);
                     scanf("%[^\n]s", &nome);
@@ -129,12 +158,13 @@ void menu(){
                     fflush(stdin);
                     scanf("%[^\n]s", &livro);
 
-                    //add_abb(id, data, nome, matricula, livro, tree);
-
                     system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                     printf("\t-------- Menu Adicionar Encomenda -------\n\n");
-                    printf("\n\tID: %d  ", id);
+                    
+                    add_abb(id, data, nome, matricula, livro, tree);
+                    printf("\t   # Ultima encomenda adicionada:\n");
+                    printf("\tID: %d  ", id);
                     printf("\tDATA: %s", data);
                     printf("\n\tALUNO: %s  ", nome);
                     printf("\n\tMATRICULA: %d", matricula);
@@ -146,15 +176,26 @@ void menu(){
                     scanf("%d", &escolha);
 
                 }while (escolha != 0 );
-
             break;
-            case 2://Nesse caso se remove o pedido sendo adicionado um documento no lugar
+            case 2:
+                //system("cls");
+                imp_user();
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t---------- Menu Remover Pedido ----------\n\n");
-                in_ordem(tree);
+                printf("\tDigite o dados para confirmar usuario.\n\n");
+                printf("\tCPF: ");
+                scanf("%d", &cpf);
+                printf("\tSENHA: ");  
+                scanf("%d", &senha);
+
+                if ( busca_user(cpf, senha, encontrado) == NULL){
+                    printf("\n\nUsuario nao cadastrado:(\n\n"); 
+                }
+                else{
+                    printf("\n\nUsuario cadastrado:)\n\n");
+                }           
                 system("pause");
 
-                // Funcao que pede dados e realiza a funcao
             break;
             case 3://Nesse caso se remove o documento de encomenda pelo transportador
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
@@ -163,16 +204,6 @@ void menu(){
                         "\npara continuar precione qualquer tecla e informe seus dados de usuario.\n");
                 //system("pause");
 
-                printf(" Digite seu cpf:\n");
-                    char cpf[CPF];
-                scanf("%s", &cpf);
-                printf(" Digite sua senha:\n");
-                    char senha[SENHA];
-                scanf("%s", &senha);
-                    //int retorno = verificar(cpf, senha);
-                if(opcao == 1){
-                        //remover da fila de prioridade
-                }
             break;
             case 0:
                 //system("clear");
@@ -191,13 +222,14 @@ void menu(){
 }
 
 int main(){
-    //add_abb(gerar_id(), "01/07/2022 13:25:37", "Otaviano", 411631, 12345, "Jesus", "Apocalipse", "Revelacao", tree);
-
+    
+    //add_abb(gerar_id(), "01/07/2022 13:25:37", "Otaviano", 411631, "Revelacao", tree);
     
     setlocale(LC_ALL, "Portuguese_Brazil");
-   // preCadastro();
-   menu();
-   // in_ordem(tree);
+    preCadastro();
+    printf("Usuarios: %d\n", user);
+    menu();
+    in_ordem(tree);
     //imp_user();
     //gerar_id();
     
