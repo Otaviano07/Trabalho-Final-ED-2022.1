@@ -3,6 +3,8 @@
 #include <string.h>
 #include <time.h>
 #include <locale.h>
+#include <Windows.h>
+#include <unistd.h>
 #include "abb.h"
 #include "fila.h"
 //#include <stdio_ext.h>
@@ -139,7 +141,9 @@ void menu(){
 
         switch(opcao){
             case 1:
+                
                 do{
+                    escolha = 1;
                     id = gerar_id();
                     system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
@@ -178,60 +182,56 @@ void menu(){
                 }while (escolha != 0 );
             break;
             case 2:
-                //system("cls");
-                imp_user();
-                printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
-                printf("\t---------- Menu Remover Pedido ----------\n\n");
-                printf("\tDigite o dados para confirmar usuario.\n\n");
-                printf("\tCPF: ");
-                scanf("%d", &cpf);
-                printf("\tSENHA: ");  
-                scanf("%d", &senha);
+                do{
+                    escolha = 1;
+                    system("cls");
+                    printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                    printf("\t---------- Menu Remover Pedido ----------\n\n");
+                    printf("\tDigite o dados para confirmar usuario.\n\n");
+                    printf("\tCPF: ");
+                    scanf("%d", &cpf);
+                    printf("\tSENHA: ");  
+                    scanf("%d", &senha);
 
-                if ( busca_user(cpf, senha, encontrado) == NULL){
-                    printf("\n\nUsuario nao cadastrado:(\n\n"); 
-                }
-                else{
-                    printf("\n\nUsuario cadastrado:)\n\n");
-                }           
-                system("pause");
+                    if ( busca_user(cpf, senha, encontrado) == NULL){
+                        printf("\n\nUsuario nao cadastrado:(\n\n"); 
+                    }
+                    else{
+                        printf("\n\nUsuario cadastrado:)\n\n");
+                    }
 
+                    printf("\tDeseja remover outro pedido? ");
+                    printf("\n\t[1] Sim ou [0] Nao\n\n");
+                    printf("\tEscolha: ");
+                    scanf("%d", &escolha); 
+
+                }while (escolha != 0 );
             break;
-            case 3://Nesse caso se remove o documento de encomenda pelo transportador
+            case 3:
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t--------- Menu Remover Encomenda --------\n\n");
-                printf("\n\nAtenção!!! Para remover encomenta o usuario precisa ser algum secretario, "
-                        "\npara continuar precione qualquer tecla e informe seus dados de usuario.\n");
-                //system("pause");
-
             break;
             case 0:
-                //system("clear");
-                system("cls");
                 printf("\n\tXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n\n");
-                system("pause");
             break;
             default:
-                //system("clear");
-                system("cls");
+
                 printf("\n\tXXXXXXXXXXX Opcao Invalida XXXXXXXXXXXX\n\n");
-                system("pause");
             break;
         }
+        sleep(3);
     }while(opcao != 0);
 }
 
 int main(){
-    
-    //add_abb(gerar_id(), "01/07/2022 13:25:37", "Otaviano", 411631, "Revelacao", tree);
-    
+
+    printf("ID: %d\n",gerar_id());
+    add_abb(gerar_id(), "01/07/2022 13:25:37", "Otaviano", 411631, "Revelacao", tree);
+
     setlocale(LC_ALL, "Portuguese_Brazil");
     preCadastro();
     printf("Usuarios: %d\n", user);
-    menu();
-    in_ordem(tree);
-    //imp_user();
-    //gerar_id();
+    menu(); 
     
     return 0;
 }

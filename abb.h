@@ -19,37 +19,25 @@ DOCUMENTO *tree = NULL;
 int item = 0;
 
 DOCUMENTO* buscar(int id, DOCUMENTO *aux){
-    printf("Entrou na Buscar!!!\n");
     if(aux != NULL){
         if(aux->id == id){
-            printf("LINHA 25\n");
             return aux;
-            printf("LINHA 27\n");
         }else if(id < aux->id){
             if(aux->esq != NULL){
-                printf("LINHA 30\n");
                 return buscar(id, aux->esq);
-                printf("LINHA 32\n");
             }else{
-                printf("LINHA 34\n");
                 return NULL;
-                printf("LINHA 36\n");
             }
         }else if(id > aux->id){
             if(aux->dir != NULL){
-                printf("LINHA 40\n");
                 return buscar(id, aux->dir);
-                printf("LINHA 42\n\n");
             }else{
-                printf("LINHA 44\n");
                 return NULL;
-                printf("LINHA 46\n");
             }
         }
     }else{
         printf("LINHA 50\n");
         return NULL;
-        printf("LINHA 52\n");
     }
 }
 
@@ -101,8 +89,7 @@ DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
 
 void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUMENTO *aux){
     
-    //aux = buscar(id, tree);
-    //printf("LINHA 105\n");
+    aux = buscar(id, tree);
 
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");     
@@ -123,7 +110,6 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
          if(tree == NULL){
             tree = novo;
             item++;
-
         }
         else{
             if(novo->id < aux->id){
@@ -145,12 +131,12 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
                 }
             }
         }
-        free(novo);
     }
+    printf("\nEncomenda Adicionada\n");
     
 }
 
-void in_ordem(DOCUMENTO *aux){
+DOCUMENTO *in_ordem(DOCUMENTO *aux){
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
