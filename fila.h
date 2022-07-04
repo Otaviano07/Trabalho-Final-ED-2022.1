@@ -24,7 +24,7 @@ NO * inicio = NULL;
 NO * fim = NULL;
 int tam = 0;
 
-void add_fila(int prioridade, int id, char *data, char *aluno, char *campus_aluno, int matricula, char *campus_livro, char *campus_aluno,  char *responsavel, NO *aux){
+void add_fila(int prioridade, int id, char *data, char *aluno, char *campus_aluno, int matricula, char *livro, char *campus_livro, char *responsavel, NO *aux){
     
         PEDIDO * p = malloc(sizeof(PEDIDO));
         p->id = id;
@@ -47,12 +47,15 @@ void add_fila(int prioridade, int id, char *data, char *aluno, char *campus_alun
             tam++;
         }else{
             if(novo->p->prioridade > aux->p->prioridade){
-                    add_fila(prioridade, id, data_pedido, nome_aluno, campus_aluno, matricula, campus_livro, campus_aluno,  responsavel, aux->p->prox);
+                novo->prox = inicio;
+                tam++;
             }
             else{
-                fim->prox = novo;
-                fim = novo;
-                tam++;
+                while(aux->prox && novo->p->prioridade < aux->p->prioridade){
+                    aux = aux->prox;
+                }
+                novo->prox = aux->prox;
+                aux->prox = inicio;
             }
         }
 }
@@ -64,7 +67,7 @@ void imprimir(){
             aux = aux->prox;
     }
 }
-
+/*
 PEDIDO remover_fila(){
     PEDIDO pedido;
         //remover!
@@ -81,6 +84,6 @@ PEDIDO remover_fila(){
             }
         }
     return pedido;
-}
+}*/
 
 

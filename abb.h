@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fila.h"
 
 #define TAM 50
 
@@ -39,34 +38,8 @@ DOCUMENTO *buscar(int id, DOCUMENTO *aux){
     
     if(aux != NULL){ 
         if(aux->id == id){ 
-            return aux;
-        }else if(id < aux->id){
-            if(aux->esq != NULL){
-                return buscar(id, aux->esq);
-            }else{
-                return NULL;                
-            }
-        }else if(id > aux->id){
-            if(aux->dir != NULL){
-                return buscar(id, aux->dir);
-            }else{
-                return NULL;
-            }
-        }
-    }else{
-        return NULL;
-    }
-}
-
-DOCUMENTO *alterar(int id, int prioridade, char *campus_aluno, char *campus_livro, char *responsavel, DOCUMENTO *aux){
-    
-    if(aux != NULL){ 
-        if(aux->id == id){
-            aux->prioridade = prioridade;
-            aux->responsavel = responsavel;    
-            aux->campus_livro = campus_livro;
-            aux->campus_aluno = campus_aluno;
-            add_fila(aux->prioridade, aux->id, aux->data_pedido, aux->nome_aluno, aux->campus_aluno, aux->matricula, aux->campus_livro, aux->campus_aluno,  aux->responsavel);
+            printf("\n\tEncontrado: %d", aux->id);
+            system("pause");
             return aux;
         }else if(id < aux->id){
             if(aux->esq != NULL){
@@ -195,7 +168,7 @@ void in_ordem(DOCUMENTO *aux){
         printf("\tDATA: %s", aux->data_pedido);
         printf("\n\tALUNO: %s", aux->nome_aluno);
         printf("\n\tMatricula: %d", aux->matricula);
-        printf("\n\tLIVRO: %s\n\n", aux->detalhes_livro);
+        printf("\n\tLIVRO: %s\n", aux->detalhes_livro);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
     }
@@ -207,11 +180,11 @@ USUARIO *busca_user(int cpf, int senha){
     while(aux->cpf != cpf && aux->senha != senha){
         aux = aux->prox;
     }
-    if(aux->prox == NULL){
-        return NULL;
+    if(aux->prox != NULL){
+        return aux;
     }
     else{
-        return aux;
+        return NULL;
     }
 }
 

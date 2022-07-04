@@ -10,6 +10,7 @@
 
 void menu(){
     USUARIO * encontrado;
+    DOCUMENTO *copia;
     char nome[TAM];
     char campus_aluno[TAM];
     char campus_livro[TAM];
@@ -33,6 +34,7 @@ void menu(){
         printf("\n\t[1] Adicionar Encomenda\n");
         printf("\t[2] Remover Pedido\n");
         printf("\t[3] Remover Encomenda\n");
+        printf("\t[4] Adicionar usuario\n");
         printf("\t[0] Sair\n");
         printf("\n\tQual a sua opcao? ");
         scanf("%d",&opcao);
@@ -40,7 +42,6 @@ void menu(){
 
         switch(opcao){
             case 1:
-                
                 do{
                     data_atual();
                     strcpy(data, atual);
@@ -87,53 +88,57 @@ void menu(){
                     system("cls");
                     printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                     printf("\t---------- Menu Remover Pedido ----------\n\n");
-                    printf("\t       #Todas encomenda adicionada\n");
-                    in_ordem(tree);
-                    imp_user();
+                    printf("\tDigite seus dados para confirmar usuario.\n\n");
+                    printf("\tCPF: ");
+                    scanf("%d", &cpf);
+                    printf("\tSENHA: ");  
+                    scanf("%d", &senha);
+                    encontrado =  busca_user(cpf, senha);
 
-                        printf("\tDigite seus dados para confirmar usuario.\n\n");
-                        printf("\tCPF: ");
-                        scanf("%d", &cpf);
-                        printf("\tSENHA: ");  
-                        scanf("%d", &senha);
+                    if ( encontrado != NULL){
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t---------- Menu Remover Pedido ----------\n\n");
+                        printf("\t       #Todas encomenda adicionada\n");
+                        in_ordem(tree);
+                        printf("\n\tDigite o ID do pedido: ");
+                        scanf("%d", &id);
+                        printf("\n\tAguarde um pouco...");
+                        sleep(1);
+                        copia = buscar(id,tree);
 
-                    if ( busca_user(cpf, senha) != NULL){
-                        
-                        do{
+                        if(copia->id == id){
                             system("cls");
                             printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                             printf("\t---------- Menu Remover Pedido ----------\n\n");
-                            printf("\tDigite o ID do pedido: ");
-                            scanf("%d", &id);
+                            printf("\t     Digite os demais dados do pedido\n");
+                            printf("\n\tID: %d", copia->id);
+                            printf("\tDATA: %s", copia->data_pedido);
+                            printf("\n\tALUNO: %s", copia->nome_aluno);
+                            printf("\n\tMatricula: %d", copia->matricula);
+                            printf("\n\tLIVRO: %s\n\n", copia->detalhes_livro);
+                            printf("\n\tPrioridade: ");
+                            scanf("%d", &prioridade);
+                            printf("\n\tCampus do aluno: ");
+                            fflush(stdin);
+                            scanf("%[^\n]s", &campus_aluno);
+                            printf("\n\tCampus do livro: ");
+                            fflush(stdin);
+                            scanf("%[^\n]s", &campus_livro);
+
+                            add_fila(prioridade, copia->id, copia->data_pedido, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
+                            remover(id,tree);
+
+                            system("cls");
+                            printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                            printf("\t---------- Menu Remover Pedido ----------\n\n");
+                            printf("\tID removido com sucesso:)\n");
                             printf("\t\nAguarde um pouco... ");
                             sleep(1);
-                        }while(buscar(id,tree)!= NULL);
-
-                        system("cls");
-                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
-                        printf("\t---------- Menu Remover Pedido ----------\n\n");
-                        printf("\tDigite os demais dados do pedido:");
-                        printf("\n\tPrioridade: ");
-                        scanf("%d", &prioridade);
-                        printf("\n\tCampus do aluno: ");
-                        fflush(stdin);
-                        scanf("%[^\n]s", &campus_aluno);
-                        printf("\n\tCampus do livro: ");
-                        fflush(stdin);
-                        scanf("%[^\n]s", &campus_livro);
-                        alterar(id, prioridade, campus_aluno, campus_livro, responsavel, tree);
-    
-                        remover(id,tree);
-
-                        system("cls");
-                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
-                        printf("\t---------- Menu Remover Pedido ----------\n\n");
-                        printf("\tID removido com sucesso:)\n");
-                        printf("\t\nAguarde um pouco... ");
-                        sleep(1);
-                    }
-                    else{
-                        printf("\n\nUsuario nao cadastrado:)\n\n");
+                        }
+                        else{
+                            printf("\n\tPedido nao encontrda:(\n\n");
+                        }
                     }
 
                     printf("\tDeseja remover outro pedido? ");
@@ -146,6 +151,56 @@ void menu(){
             case 3:
                 printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                 printf("\t--------- Menu Remover Encomenda --------\n\n");
+            break;
+            case 4:
+
+                do{
+                    char nome_user[TAM];
+                    char cargo_user[TAM];
+                    int senha_user;
+                    int cpf_user;
+
+                    system("cls");
+                    printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                    printf("\t--------- Menu Adicionar Usuario --------\n\n");
+                    printf("\tDigite seus dados para confirmar usuario.\n\n");
+                    printf("\tCPF: ");
+                    scanf("%d", &cpf);
+                    printf("\tSENHA: ");  
+                    scanf("%d", &senha);
+                    encontrado =  busca_user(cpf, senha);
+
+                    if ( encontrado != NULL){
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t--------- Menu Adicionar Usuario --------\n\n");
+                        printf("\tNome do usuario: ");
+                        fflush(stdin);
+                        scanf("%[^\n]s", &nome_user);
+
+                        printf("\tCargo do usuario: ");
+                        fflush(stdin);
+                        scanf("%[^\n]s", &cargo_user);
+
+                        printf("\tCPF do usuario: ");
+                        scanf("%d", &cpf_user);
+
+                        printf("\tSenha do usuario: ");
+                        scanf("%d", &senha_user);
+                        add_user(cpf_user, senha_user, nome_user, cargo_user);
+
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t--------- Menu Adicionar Usuario --------\n\n");
+                        printf("\t     Usuario cadastrado com sucesso:)\n\n");
+                        imp_user();
+                    }
+                    printf("\tDeseja adicionar outro usuario? ");
+                    printf("\n\t[1] Sim ou [0] Nao\n\n");
+                    printf("\tEscolha: ");
+                    scanf("%d", &escolha); 
+
+                }while (escolha != 0 );
             break;
             case 0:
                 printf("\n\tXXXXXXXXXXXX Saindo do sistema XXXXXXXXXXXX\n\n");
