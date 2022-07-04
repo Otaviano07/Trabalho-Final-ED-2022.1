@@ -1,20 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 typedef struct pedido{
-    int identificador;
-    char * nome_aluno;
-    //... demais dados
-    int prioridade;
+    int id; 
+    int prioridade; 
+    int matricula;
+    char *detalhes_livro;
+    char *nome_aluno;
+    char *campus_livro;
+    char *campus_aluno;  
+    char *responsavel;
+    char *data_encomenda;
     
 }PEDIDO;
 
 typedef struct No{
    
     PEDIDO *p;
-    
-    //mecanismo p/ unir nos!
     struct No * prox;
 }NO;
 
@@ -22,35 +24,43 @@ NO * inicio = NULL;
 NO * fim = NULL;
 int tam = 0;
 
-void add_fila(int identificador, char *nome_aluno, int prioridade){
+void add_fila(int prioridade, int id, char *data, char *aluno, char *campus_aluno, int matricula, char *campus_livro, char *campus_aluno,  char *responsavel, NO *aux){
     
         PEDIDO * p = malloc(sizeof(PEDIDO));
-        p->identificador = identificador;
-        p->nome_aluno = nome_aluno;
+        p->id = id;
+        p->data_encomenda = data;
+        p->matricula = matricula;
+        p->nome_aluno = aluno;          
+        p->detalhes_livro = livro;
         p->prioridade = prioridade;
+        p->responsavel = responsavel;    
+        p->campus_livro = campus_livro;
+        p->campus_aluno = campus_aluno; 
         
         NO * novo = malloc(sizeof(NO));
         novo->p = p;
         novo->prox = NULL;
     
-    
-        if(inicio == NULL){ //fila vazia
+        if(inicio == NULL){
             inicio = novo;
             fim = novo;
             tam++;
-        }else{ //adiciona de acordo com a prioridade! :D
-            //modificar!
-            fim->prox = novo;
-            fim = novo;
-            tam++;
+        }else{
+            if(novo->p->prioridade > aux->p->prioridade){
+                    add_fila(prioridade, id, data_pedido, nome_aluno, campus_aluno, matricula, campus_livro, campus_aluno,  responsavel, aux->p->prox);
+            }
+            else{
+                fim->prox = novo;
+                fim = novo;
+                tam++;
+            }
         }
 }
-
 
 void imprimir(){
     NO * aux = inicio;
     for(int i = 0; i < tam; i++){
-        printf("Identificador: %d\n", aux->p->identificador);
+        printf("\tID: %d\n", aux->p->id);
             aux = aux->prox;
     }
 }

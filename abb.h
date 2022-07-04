@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "fila.h"
 
 #define TAM 50
 
@@ -21,7 +22,7 @@ typedef struct Documento{
     char *nome_aluno;
     char *campus_livro;
     char *campus_aluno;  
-    char *secretario;
+    char *responsavel;
     char *data_pedido;
     struct Documento *esq;
     struct Documento *dir;
@@ -57,9 +58,37 @@ DOCUMENTO *buscar(int id, DOCUMENTO *aux){
     }
 }
 
+DOCUMENTO *alterar(int id, int prioridade, char *campus_aluno, char *campus_livro, char *responsavel, DOCUMENTO *aux){
+    
+    if(aux != NULL){ 
+        if(aux->id == id){
+            aux->prioridade = prioridade;
+            aux->responsavel = responsavel;    
+            aux->campus_livro = campus_livro;
+            aux->campus_aluno = campus_aluno;
+            add_fila(aux->prioridade, aux->id, aux->data_pedido, aux->nome_aluno, aux->campus_aluno, aux->matricula, aux->campus_livro, aux->campus_aluno,  aux->responsavel);
+            return aux;
+        }else if(id < aux->id){
+            if(aux->esq != NULL){
+                return buscar(id, aux->esq);
+            }else{
+                return NULL;                
+            }
+        }else if(id > aux->id){
+            if(aux->dir != NULL){
+                return buscar(id, aux->dir);
+            }else{
+                return NULL;
+            }
+        }
+    }else{
+        return NULL;
+    }
+}
+
 DOCUMENTO* remover(int id, DOCUMENTO *lixo ){
     if(tree == NULL){
-        printf("\nSolicitacoes de encomenda vazia!!!\n");
+        printf("\nSolicitacoes de pedido vazia!!!\n");
         return NULL;        
     }
     else{
@@ -120,7 +149,7 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
         novo->nome_aluno = aluno;          
         novo->detalhes_livro = livro;
         novo->prioridade = 0;
-        novo->secretario = NULL;    
+        novo->responsavel = NULL;    
         novo->campus_livro = NULL;
         novo->campus_aluno = NULL;          
         novo->esq = NULL;

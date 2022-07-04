@@ -11,8 +11,12 @@
 void menu(){
     USUARIO * encontrado;
     char nome[TAM];
+    char campus_aluno[TAM];
+    char campus_livro[TAM];
+    char responsavel[TAM];
     char livro[TAM];
     char data[TAM];
+    int prioridade;
     int matricula;
     int escolha;
     int cpf;
@@ -94,7 +98,39 @@ void menu(){
                         scanf("%d", &senha);
 
                     if ( busca_user(cpf, senha) != NULL){
-                        printf("\n\nUsuario cadastrado:(\n\n"); 
+                        
+                        do{
+                            system("cls");
+                            printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                            printf("\t---------- Menu Remover Pedido ----------\n\n");
+                            printf("\tDigite o ID do pedido: ");
+                            scanf("%d", &id);
+                            printf("\t\nAguarde um pouco... ");
+                            sleep(1);
+                        }while(buscar(id,tree)!= NULL);
+
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t---------- Menu Remover Pedido ----------\n\n");
+                        printf("\tDigite os demais dados do pedido:");
+                        printf("\n\tPrioridade: ");
+                        scanf("%d", &prioridade);
+                        printf("\n\tCampus do aluno: ");
+                        fflush(stdin);
+                        scanf("%[^\n]s", &campus_aluno);
+                        printf("\n\tCampus do livro: ");
+                        fflush(stdin);
+                        scanf("%[^\n]s", &campus_livro);
+                        alterar(id, prioridade, campus_aluno, campus_livro, responsavel, tree);
+    
+                        remover(id,tree);
+
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t---------- Menu Remover Pedido ----------\n\n");
+                        printf("\tID removido com sucesso:)\n");
+                        printf("\t\nAguarde um pouco... ");
+                        sleep(1);
                     }
                     else{
                         printf("\n\nUsuario nao cadastrado:)\n\n");
