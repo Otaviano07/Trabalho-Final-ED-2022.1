@@ -57,48 +57,51 @@ DOCUMENTO *buscar(int id, DOCUMENTO *aux){
     }
 }
 
-DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
-    if(raiz == NULL){
-        return NULL;
+DOCUMENTO* remover(int id, DOCUMENTO *lixo ){
+    if(tree == NULL){
         printf("\nSolicitacoes de encomenda vazia!!!\n");
+        return NULL;        
     }
     else{
-        if(raiz->id == id){
-            if(raiz->esq == NULL && raiz->dir == NULL){
-                free(raiz);
+        if(lixo->id == id){
+            if(lixo->esq == NULL && lixo->dir == NULL){
+                item--;
+                free(lixo);
                 return NULL;
             }
             else{
-                if(raiz->esq == NULL || raiz->dir == NULL){
+                if(lixo->esq == NULL || lixo->dir == NULL){
                     DOCUMENTO *aux;
-                    if(raiz->esq != NULL){
-                        aux = aux->esq;
+                    if(lixo->esq != NULL){
+                        aux = lixo->esq;
                     }
                     else{
-                        aux = aux->dir;
+                        aux = lixo->dir;
                     }
-                    free(aux);
+                    item--;
+                    free(lixo);
                     return aux;
                 }
                 else{
-                    DOCUMENTO *aux = raiz->esq;
+                    DOCUMENTO *aux = lixo->esq;
                     while(aux->dir != NULL){
                         aux = aux->dir;
                     }
-                        raiz->id = aux->id;
+                        lixo->id = aux->id;
                         aux->id = id;
-                        raiz->esq = remover(id, raiz->esq);                            
+                        lixo->esq = remover(id, lixo->esq);
+                        return lixo;                            
                 }
             }
         }
         else{
-                if(id < raiz->id ){
-                    raiz->esq = remover(id, raiz->esq);
+                if(id < lixo->id ){
+                    lixo->esq = remover(id, lixo->esq);
                 }
                 else{
-                    raiz->dir = remover(id, raiz->dir);
+                    lixo->dir = remover(id, lixo->dir);
                 }
-                return raiz;
+                return lixo;
             }
     }
 }
