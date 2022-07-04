@@ -1,16 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define TAM 50
+
+char atual[TAM];
+
+typedef struct usuario{
+    int cpf;
+    int senha;
+    char *nome;
+    char *cargo;
+    struct usuario *prox;
+}USUARIO;
+
 typedef struct Documento{
     int id; 
     int prioridade; 
     int matricula;
-    char * detalhes_livro;
-    char * nome_aluno;
-    char * campus_livro;
-    char * campus_aluno;  
-    char * secretario;
-    char * data_pedido;
+    char *detalhes_livro;
+    char *nome_aluno;
+    char *campus_livro;
+    char *campus_aluno;  
+    char *secretario;
+    char *data_pedido;
     struct Documento *esq;
     struct Documento *dir;
 }DOCUMENTO;
@@ -18,15 +30,20 @@ typedef struct Documento{
 DOCUMENTO *tree = NULL;
 int item = 0;
 
-DOCUMENTO* buscar(int id, DOCUMENTO *aux){
-    if(aux != NULL){
-        if(aux->id == id){
+USUARIO *new_user = NULL;
+USUARIO *fim_user = NULL;
+int user = 0;
+
+DOCUMENTO *buscar(int id, DOCUMENTO *aux){
+    
+    if(aux != NULL){ 
+        if(aux->id == id){ 
             return aux;
         }else if(id < aux->id){
             if(aux->esq != NULL){
                 return buscar(id, aux->esq);
             }else{
-                return NULL;
+                return NULL;                
             }
         }else if(id > aux->id){
             if(aux->dir != NULL){
@@ -36,7 +53,6 @@ DOCUMENTO* buscar(int id, DOCUMENTO *aux){
             }
         }
     }else{
-        printf("LINHA 50\n");
         return NULL;
     }
 }
@@ -89,7 +105,7 @@ DOCUMENTO* remover(int id, DOCUMENTO *raiz ){
 
 void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUMENTO *aux){
     
-    aux = buscar(id, tree);
+    //aux = buscar(id, tree);
 
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");     
@@ -107,36 +123,39 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
         novo->esq = NULL;
         novo->dir = NULL;
 
-         if(tree == NULL){
+        if(tree == NULL){
             tree = novo;
             item++;
         }
         else{
-            if(novo->id < aux->id){
-                if(aux->esq != NULL){
-                    add_abb(id, data, aluno, matricula, livro, aux->esq);
+            if(buscar(id, tree) == NULL){
+                if(novo->id < aux->id){
+                    if(aux->esq != NULL){
+                        add_abb(id, data, aluno, matricula, livro, aux->esq);
+                    }
+                    else{
+                        aux->esq = novo;
+                        item++;
+                    }
                 }
                 else{
-                    aux->esq = novo;
-                    item++;
-                }
-            }
-            else{
-                if(aux->dir != NULL){
-                    add_abb(id, data, aluno, matricula, livro, aux->esq);
-                }
-                else{
+                    if(aux->dir != NULL){
+                        add_abb(id, data, aluno, matricula, livro, aux->esq);
+                    }
+                    else{
                     aux->dir = novo;
                     item++;
                 }
+                }
+            }
+            else{
+                 printf("\n\tID %d nao pode ser adicionado!Existente da arvore.\n\n", id);
             }
         }
     }
-    printf("\nEncomenda Adicionada\n");
-    
 }
 
-DOCUMENTO *in_ordem(DOCUMENTO *aux){
+void in_ordem(DOCUMENTO *aux){
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
@@ -147,5 +166,88 @@ DOCUMENTO *in_ordem(DOCUMENTO *aux){
         printf("\n\tLIVRO: %s\n\n", aux->detalhes_livro);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
+    }
+}
+
+USUARIO *busca_user(int cpf, int senha){
+    USUARIO *aux = new_user;
+    
+    while(aux->cpf != cpf && aux->senha != senha){
+        aux = aux->prox;
+    }
+    if(aux->prox == NULL){
+        return NULL;
+    }
+    else{
+        return aux;
+    }
+}
+
+void add_user(int cpf, int senha, char *nome, char *cargo){
+    
+    USUARIO *novo = malloc(sizeof(USUARIO));
+    novo->nome = nome;
+    novo->senha = senha;
+    novo->cpf = cpf;
+    novo->cargo = cargo;
+    novo->prox = NULL;
+    
+    if(new_user == NULL){
+            new_user = novo;
+            fim_user = novo;
+            user++;
+    }else{
+        fim_user->prox = novo;
+        fim_user = novo;
+        user++;
+    }
+
+}
+
+void data_atual(){
+
+    time_t tempo;
+    tempo = time(NULL);
+    strftime(atual, sizeof(atual), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
+    
+}
+
+int gerar_id(){
+    int i;
+    int b;
+
+    srand((unsigned)time(NULL));
+
+    do{
+        i = (rand() % 100 -10) * (rand() % 100 -10);
+    }while(i < 999 );
+
+    return i;
+
+}
+
+void preCadastro(){
+
+    if(new_user == NULL){    
+        add_user(500063, 500063, "Igor", "Secretario");
+        add_user(411631, 411631, "Otaviano", "Secretario");
+        add_user(511427, 511427, "guilherme", "Secretario");
+        add_user(111111, 111111, "Transportador_01", "Transportador");
+        add_user(222222, 222222, "Transportador_02", "Transportador");
+        add_user(333333, 333333, "Transportador_03", "Transportador");
+        add_user(444444, 444444, "Transportador_04", "Transportador");
+        add_user(555555, 555555, "Transportador_05", "Transportador");
+    }
+    
+}
+
+void imp_user(){
+    USUARIO * aux = new_user;
+    for(int i = 0; i < user; i++){
+        printf("\tCPF: %d\n", aux->cpf);
+        printf("\tNome: %s\n", aux->nome);
+        printf("\tSenha: %d\n", aux->senha);
+        printf("\tCargo: %s\n\n", aux->cargo);
+        aux = aux->prox;
     }
 }
