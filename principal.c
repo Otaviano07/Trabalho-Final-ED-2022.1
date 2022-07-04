@@ -5,9 +5,10 @@
 #include <locale.h>
 #include <Windows.h>
 #include <unistd.h>
+#include <stdio_ext.h>
 #include "abb.h"
 #include "fila.h"
-//#include <stdio_ext.h>
+
 
 #define TAM 50
 
