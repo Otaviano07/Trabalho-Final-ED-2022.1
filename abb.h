@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 #define TAM 50
-
 char atual[TAM];
 
 typedef struct usuario{
