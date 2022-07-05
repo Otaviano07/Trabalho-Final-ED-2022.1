@@ -53,13 +53,13 @@ void menu(){
                     printf("\n\tNome do aluno: ");
                     fflush(stdin);
                     scanf("%[^\n]s", &nome);
-
                     printf("\tMatricula do aluno: ");
                     scanf("%d", &matricula);
-    
                     printf("\tDetalhes do livro: ");
                     fflush(stdin);
                     scanf("%[^\n]s", &livro);
+
+                    add_abb(id, data, nome, matricula, livro, tree);
 
                     system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
@@ -76,8 +76,6 @@ void menu(){
                     printf("\tEscolha: ");
                     scanf("%d", &escolha);
 
-                    add_abb(id, data, nome, matricula, livro, tree);
-
                 }while (escolha != 0 );
             break;
             case 2:
@@ -92,7 +90,7 @@ void menu(){
                     scanf("%d", &senha);
                     encontrado =  busca_user(cpf, senha);
 
-                    if ( encontrado != NULL){
+                    if (encontrado != NULL){
                         system("cls");
                         printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                         printf("\t---------- Menu Remover Pedido ----------\n\n");
@@ -118,10 +116,10 @@ void menu(){
                             printf("\n\tLIVRO: %s", copia->detalhes_livro);
                             printf("\n\tPrioridade: ");
                             scanf("%d", &prioridade);
-                            printf("\n\tCampus do aluno: ");
+                            printf("\tCampus do aluno: ");
                             fflush(stdin);
                             scanf("%[^\n]s", &campus_aluno);
-                            printf("\n\tCampus do livro: ");
+                            printf("tCampus do livro: ");
                             fflush(stdin);
                             scanf("%[^\n]s", &campus_livro);
 
@@ -148,8 +146,50 @@ void menu(){
                 }while (escolha != 0 );
             break;
             case 3:
-                printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
-                printf("\t--------- Menu Remover Encomenda --------\n\n");
+                do{
+                    system("cls");
+                    printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
+                    printf("\t--------- Menu Remover Encomenda --------\n\n");
+                    printf("\tDigite seus dados para confirmar usuario.\n\n");
+                    printf("\tCPF: ");
+                    scanf("%d", &cpf);
+                    printf("\tSENHA: ");  
+                    scanf("%d", &senha);
+                    encontrado =  busca_user(cpf, senha);
+
+                    if ( encontrado != NULL){
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t---------- Menu Remover Pedido ----------\n\n");
+                        printf("\t       #Todos pedidos adicionado\n");
+                        imprimir_fila();
+                        sleep(1);
+                        printf("\n\tAguarde um pouco enquanto removemos o pedido...");
+                        remover_fila();
+                        system("pause");
+                        system("cls");
+                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                        printf("\t---------- Menu Remover Pedido ----------\n\n");
+                            if(inicio != NULL){
+                                printf("\t       #Pedido removido com sucesso:)\n");
+                                imprimir_fila();
+                            }
+                            else{
+                                printf("\t       #Pedido removido com sucesso:)\n");
+                            }
+                        
+                    }
+                    else{
+                        printf("\n\tUsuario nao encontrado encontrda:(\n\n");
+                    }
+                    
+                    printf("\n\tDeseja remover outro pedido? ");
+                    printf("\n\t[1] Sim ou [0] Nao\n\n");
+                    printf("\tEscolha: ");
+                    scanf("%d", &escolha); 
+
+                }while (escolha != 0 );
+
             break;
             case 4:
 

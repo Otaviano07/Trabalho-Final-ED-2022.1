@@ -160,14 +160,14 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
 USUARIO *busca_user(int cpf, int senha){
     USUARIO *aux = new_user;
     
-    while(aux->cpf != cpf && aux->senha != senha){
-        aux = aux->prox;
-    }
-    if(aux->prox != NULL){
-        return aux;
+    if(aux->prox == NULL){
+        return NULL;
     }
     else{
-        return NULL;
+        while(aux->cpf != cpf && aux->senha != senha){
+            aux = aux->prox;
+        }
+        return aux;
     }
 }
 
