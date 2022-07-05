@@ -34,12 +34,24 @@ USUARIO *new_user = NULL;
 USUARIO *fim_user = NULL;
 int user = 0;
 
+void in_ordem(DOCUMENTO *aux){
+    if(aux->esq != NULL){
+        in_ordem(aux->esq);
+    }
+        printf("\n\tID: %d  ", aux->id);
+        printf("\tDATA: %s", aux->data_pedido);
+        printf("\n\tALUNO: %s", aux->nome_aluno);
+        printf("\n\tMatricula: %d", aux->matricula);
+        printf("\n\tLIVRO: %s\n", aux->detalhes_livro);
+    if(aux->dir != NULL){
+        in_ordem(aux->dir);
+    }
+}
+
 DOCUMENTO *buscar(int id, DOCUMENTO *aux){
     
     if(aux != NULL){ 
         if(aux->id == id){ 
-            printf("\n\tEncontrado: %d", aux->id);
-            system("pause");
             return aux;
         }else if(id < aux->id){
             if(aux->esq != NULL){
@@ -59,58 +71,44 @@ DOCUMENTO *buscar(int id, DOCUMENTO *aux){
     }
 }
 
-DOCUMENTO* remover(int id, DOCUMENTO *lixo ){
+DOCUMENTO *remover(int id, DOCUMENTO *lixo ){
     if(tree == NULL){
-        printf("\nSolicitacoes de pedido vazia!!!\n");
         return NULL;        
     }
-    else{
-        if(lixo->id == id){
-            if(lixo->esq == NULL && lixo->dir == NULL){
-                item--;
-                free(lixo);
-                return NULL;
-            }
-            else{
-                if(lixo->esq == NULL || lixo->dir == NULL){
-                    DOCUMENTO *aux;
-                    if(lixo->esq != NULL){
-                        aux = lixo->esq;
-                    }
-                    else{
-                        aux = lixo->dir;
-                    }
-                    item--;
-                    free(lixo);
-                    return aux;
-                }
-                else{
-                    DOCUMENTO *aux = lixo->esq;
-                    while(aux->dir != NULL){
-                        aux = aux->dir;
-                    }
-                        lixo->id = aux->id;
-                        aux->id = id;
-                        lixo->esq = remover(id, lixo->esq);
-                        return lixo;                            
-                }
-            }
+        else if(lixo->id > id){
+            lixo->esq = remover(id, lixo->esq);
         }
-        else{
-                if(id < lixo->id ){
-                    lixo->esq = remover(id, lixo->esq);
-                }
-                else{
-                    lixo->dir = remover(id, lixo->dir);
-                }
-                return lixo;
+        else if(lixo->id < id){
+            lixo->dir = remover(id, lixo->dir);
+        }
+    else{
+        if(lixo->esq == NULL && lixo->dir == NULL){
+            free(lixo);
+            return NULL;
+        }
+            else if(lixo->esq == NULL){
+                DOCUMENTO *aux = lixo;
+                lixo = lixo->dir;
+                free(aux);
             }
+            else if(lixo->dir == NULL){
+                DOCUMENTO *aux = lixo;
+                lixo = lixo->esq;
+                free(aux);
+            }
+        else{
+            DOCUMENTO *aux = lixo->esq;
+            while(aux->dir != NULL){
+                aux = aux->dir;
+            }
+            lixo->id = aux->id;
+            aux->id = id;
+            lixo->esq = remover(id, lixo->esq);
+        }
     }
 }
 
 void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUMENTO *aux){
-    
-    //aux = buscar(id, tree);
 
     if(aux != NULL && aux->id == id){
         printf("Insercao invalida!\n");     
@@ -157,20 +155,6 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
                  printf("\n\tID %d nao pode ser adicionado!Existente da arvore.\n\n", id);
             }
         }
-    }
-}
-
-void in_ordem(DOCUMENTO *aux){
-    if(aux->esq != NULL){
-        in_ordem(aux->esq);
-    }
-        printf("\n\tID: %d  ", aux->id);
-        printf("\tDATA: %s", aux->data_pedido);
-        printf("\n\tALUNO: %s", aux->nome_aluno);
-        printf("\n\tMatricula: %d", aux->matricula);
-        printf("\n\tLIVRO: %s\n", aux->detalhes_livro);
-    if(aux->dir != NULL){
-        in_ordem(aux->dir);
     }
 }
 
@@ -247,6 +231,7 @@ void preCadastro(){
 }
 
 void imp_user(){
+
     USUARIO * aux = new_user;
     for(int i = 0; i < user; i++){
         printf("\tCPF: %d\n", aux->cpf);

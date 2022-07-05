@@ -25,8 +25,6 @@ void menu(){
     int opcao;    
     int id;
 
-
-
     do{
         system("cls");
         printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
@@ -45,7 +43,6 @@ void menu(){
                 do{
                     data_atual();
                     strcpy(data, atual);
-                    escolha = 1;
                     id = gerar_id();
                     system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
@@ -67,12 +64,10 @@ void menu(){
                     system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                     printf("\t-------- Menu Adicionar Encomenda -------\n\n");
-                    
-                    add_abb(id, data, nome, matricula, livro, tree);
                     printf("\t   # Ultima encomenda adicionada:\n");
                     printf("\tID: %d  ", id);
                     printf("\tDATA: %s", data);
-                    printf("\n\tALUNO: %s  ", nome);
+                    printf("\n\tALUNO: %s", nome);
                     printf("\n\tMATRICULA: %d", matricula);
                     printf("\n\tLIVRO: %s\n\n", livro);
 
@@ -80,6 +75,8 @@ void menu(){
                     printf("\n\t[1] Sim ou [0] Nao\n\n");
                     printf("\tEscolha: ");
                     scanf("%d", &escolha);
+
+                    add_abb(id, data, nome, matricula, livro, tree);
 
                 }while (escolha != 0 );
             break;
@@ -108,15 +105,17 @@ void menu(){
                         copia = buscar(id,tree);
 
                         if(copia->id == id){
+                            data_atual();
+                            strcpy(data, atual);
                             system("cls");
                             printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                             printf("\t---------- Menu Remover Pedido ----------\n\n");
                             printf("\t     Digite os demais dados do pedido\n");
                             printf("\n\tID: %d", copia->id);
-                            printf("\tDATA: %s", copia->data_pedido);
+                            printf("\tDATA: %s", data);
                             printf("\n\tALUNO: %s", copia->nome_aluno);
                             printf("\n\tMatricula: %d", copia->matricula);
-                            printf("\n\tLIVRO: %s\n\n", copia->detalhes_livro);
+                            printf("\n\tLIVRO: %s", copia->detalhes_livro);
                             printf("\n\tPrioridade: ");
                             scanf("%d", &prioridade);
                             printf("\n\tCampus do aluno: ");
@@ -133,7 +132,7 @@ void menu(){
                             printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                             printf("\t---------- Menu Remover Pedido ----------\n\n");
                             printf("\tID removido com sucesso:)\n");
-                            printf("\t\nAguarde um pouco... ");
+                            printf("\n\tAguarde um pouco... ");
                             sleep(1);
                         }
                         else{
@@ -141,7 +140,7 @@ void menu(){
                         }
                     }
 
-                    printf("\tDeseja remover outro pedido? ");
+                    printf("\n\tDeseja remover outro pedido? ");
                     printf("\n\t[1] Sim ou [0] Nao\n\n");
                     printf("\tEscolha: ");
                     scanf("%d", &escolha); 
