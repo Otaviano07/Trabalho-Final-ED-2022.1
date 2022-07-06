@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "abb.h"
 #include "fila.h"
+#include "usuario.h"
 
 void menu(){
     USUARIO *encontrado;
@@ -121,7 +122,7 @@ void menu(){
                             printf("\tCampus do aluno: ");
                             fflush(stdin);
                             scanf("%[^\n]s", &campus_aluno);
-                            printf("tCampus do livro: ");
+                            printf("\tCampus do livro: ");
                             fflush(stdin);
                             scanf("%[^\n]s", &campus_livro);
 
@@ -166,7 +167,7 @@ void menu(){
                         printf("\t       #Todos pedidos adicionado\n");
                         imprimir_fila();
                         sleep(1);
-                        printf("\n\tAguarde um pouco enquanto removemos o pedido...");
+                        printf("\n\tAguarde um pouco enquanto removemos o pedido...\n\n");
                         remover_fila();
                         system("pause");
                         system("cls");
