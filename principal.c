@@ -9,6 +9,34 @@
 #include "fila.h"
 #include "usuario.h"
 
+#define TAM 50
+char atual[TAM];
+
+int gerar_id(){
+    int i;
+    DOCUMENTO *b;
+
+    srand((unsigned)time(NULL));
+
+    do{
+        i = (10 + ( rand() % 100)) * (10 + ( rand() % 100));
+        b = buscar(i, tree);
+    }while(i < 999 && b != NULL );
+
+    return i;
+
+}
+
+
+void data_atual(){
+
+    time_t tempo;
+    tempo = time(NULL);
+    strftime(atual, sizeof(atual), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
+    
+}
+
+
 void menu(){
     USUARIO *encontrado;
     DOCUMENTO *copia;
@@ -182,7 +210,7 @@ void menu(){
                             imprimir_fila();
                             printf("\tAguarde um pouco enquanto removemos o pedido...\n\n");
                             remover_fila();
-                            sleep(2);
+                            sleep(3);
                             system("cls");
                             printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                             printf("\t---------- Menu Remover Pedido ----------\n\n");

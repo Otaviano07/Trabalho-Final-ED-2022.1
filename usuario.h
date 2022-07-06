@@ -3,9 +3,6 @@
 #include <string.h>
 #include <time.h>
 
-#define TAM 50
-char atual[TAM];
-
 typedef struct usuario{
     int cpf;
     int senha;
@@ -55,28 +52,6 @@ void add_user(int cpf, int senha, char *nome, char *cargo){
         fim_user = novo;
         user++;
     }
-
-}
-
-void data_atual(){
-
-    time_t tempo;
-    tempo = time(NULL);
-    strftime(atual, sizeof(atual), "%d/%m/%Y %H:%M:%S", localtime( &tempo ));
-    
-}
-
-int gerar_id(){
-    int i;
-    int b;
-
-    srand((unsigned)time(NULL));
-
-    do{
-        i = (rand() % 100 -10) * (rand() % 100 -10);
-    }while(i < 999 );
-
-    return i;
 
 }
 

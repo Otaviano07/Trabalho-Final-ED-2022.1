@@ -56,30 +56,35 @@ DOCUMENTO *buscar(int id, DOCUMENTO *aux){
 }
 
 DOCUMENTO *remover(int id, DOCUMENTO *lixo ){
+    DOCUMENTO *b = buscar(id, tree);
+    
     if(tree == NULL){
         return NULL;        
     }
-        else if(lixo->id > id){
-            lixo->esq = remover(id, lixo->esq);
-        }
-        else if(lixo->id < id){
-            lixo->dir = remover(id, lixo->dir);
-        }
+    else if(b == NULL){
+        return NULL; 
+    }
+    else if(lixo->id > id){
+        lixo->esq = remover(id, lixo->esq);
+    }
+    else if(lixo->id < id){
+        lixo->dir = remover(id, lixo->dir);
+    }
     else{
         if(lixo->esq == NULL && lixo->dir == NULL){
             free(lixo);
             return NULL;
         }
-            else if(lixo->esq == NULL){
-                DOCUMENTO *aux = lixo;
-                lixo = lixo->dir;
-                free(aux);
-            }
-            else if(lixo->dir == NULL){
-                DOCUMENTO *aux = lixo;
-                lixo = lixo->esq;
-                free(aux);
-            }
+        else if(lixo->esq == NULL){
+            DOCUMENTO *aux = lixo;
+            lixo = lixo->dir;
+            free(aux);
+        }
+        else if(lixo->dir == NULL){
+            DOCUMENTO *aux = lixo;
+            lixo = lixo->esq;
+            free(aux);
+        }
         else{
             DOCUMENTO *aux = lixo->esq;
             while(aux->dir != NULL){
@@ -95,7 +100,7 @@ DOCUMENTO *remover(int id, DOCUMENTO *lixo ){
 void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUMENTO *aux){
 
     if(aux != NULL && aux->id == id){
-        printf("Insercao invalida!\n");     
+        printf("\n\tInsercao invalida!\n");     
     }else{
         DOCUMENTO *novo = malloc(sizeof(DOCUMENTO));
         novo->id = id;
@@ -110,34 +115,31 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
         novo->esq = NULL;
         novo->dir = NULL;
 
+
         if(tree == NULL){
             tree = novo;
             item++;
         }
         else{
-            if(buscar(id, tree) == NULL){
-                if(novo->id < aux->id){
-                    if(aux->esq != NULL){
-                        add_abb(id, data, aluno, matricula, livro, aux->esq);
-                    }
-                    else{
-                        aux->esq = novo;
-                        item++;
-                    }
+            if(novo->id < aux->id){
+                if(aux->esq != NULL){
+                    add_abb(id, data, aluno, matricula, livro, aux->esq);
                 }
                 else{
-                    if(aux->dir != NULL){
-                        add_abb(id, data, aluno, matricula, livro, aux->esq);
-                    }
-                    else{
-                    aux->dir = novo;
+                    aux->esq = novo;
                     item++;
-                }
                 }
             }
             else{
-                 printf("\n\tID %d nao pode ser adicionado!Existente da arvore.\n\n", id);
+                if(aux->dir != NULL){
+                    add_abb(id, data, aluno, matricula, livro, aux->dir);
+                }
+                else{
+                aux->dir = novo;
+                item++;
+                }
             }
+
         }
     }
 }
