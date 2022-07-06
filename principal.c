@@ -9,7 +9,7 @@
 #include "fila.h"
 
 void menu(){
-    USUARIO * encontrado;
+    USUARIO *encontrado;
     DOCUMENTO *copia;
     char nome[TAM];
     char campus_aluno[TAM];
@@ -36,7 +36,6 @@ void menu(){
         printf("\t[0] Sair\n");
         printf("\n\tQual a sua opcao? ");
         scanf("%d",&opcao);
-
 
         switch(opcao){
             case 1:
@@ -80,6 +79,9 @@ void menu(){
             break;
             case 2:
                 do{
+                    data_atual();
+                    strcpy(data, atual);
+
                     system("cls");
                     printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                     printf("\t---------- Menu Remover Pedido ----------\n\n");
@@ -123,7 +125,7 @@ void menu(){
                             fflush(stdin);
                             scanf("%[^\n]s", &campus_livro);
 
-                            add_fila(prioridade, copia->id, copia->data_pedido, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
+                            add_fila(prioridade, copia->id, data, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
                             remover(id,tree);
 
                             system("cls");
@@ -189,10 +191,8 @@ void menu(){
                     scanf("%d", &escolha); 
 
                 }while (escolha != 0 );
-
             break;
             case 4:
-
                 do{
                     char nome_user[TAM];
                     char cargo_user[TAM];
@@ -256,7 +256,12 @@ void menu(){
 int main(){
     setlocale(LC_ALL, "Portuguese_Brazil");
     preCadastro();
-    menu(); 
+    menu();
+    free(tree);
+    free(new_user);
+    free(fim_user);
+    free(inicio); 
+    free(fim);
     
     return 0;
 }
