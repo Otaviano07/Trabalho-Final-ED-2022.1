@@ -157,7 +157,7 @@ void menu(){
                                 scanf("%[^\n]s", &campus_livro);
 
                                 add_fila(prioridade, copia->id, data, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
-                                tree = remover(id,tree);
+                                remover(id,tree);
 
                                 system("cls");
                                 printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
