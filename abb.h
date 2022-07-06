@@ -57,7 +57,7 @@ DOCUMENTO *buscar(int id, DOCUMENTO *aux){
 
 DOCUMENTO *remover(int id, DOCUMENTO *lixo ){
     DOCUMENTO *b = buscar(id, tree);
-    
+
     if(tree == NULL){
         return NULL;        
     }
@@ -135,8 +135,8 @@ void add_abb(int id, char *data, char *aluno, int matricula, char *livro, DOCUME
                     add_abb(id, data, aluno, matricula, livro, aux->dir);
                 }
                 else{
-                aux->dir = novo;
-                item++;
+                    aux->dir = novo;
+                    item++;
                 }
             }
 
