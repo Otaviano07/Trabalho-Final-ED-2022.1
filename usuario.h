@@ -15,6 +15,7 @@ typedef struct usuario{
 }USUARIO;
 
 USUARIO *new_user = NULL;
+USUARIO *fim_user = NULL;
 int user = 0;
 
 USUARIO *busca_user(int cpf, int senha){
@@ -24,11 +25,11 @@ USUARIO *busca_user(int cpf, int senha){
         return NULL;
     }
     else{
-        while(aux->cpf != cpf && aux->senha != senha){
+        while(aux->prox != NULL && (aux->cpf != cpf && aux->senha != senha) ){
             aux = aux->prox;
         }
-        return aux;
-    }
+            return aux;
+     }
 }
 
 void add_user(int cpf, int senha, char *nome, char *cargo){
@@ -41,10 +42,12 @@ void add_user(int cpf, int senha, char *nome, char *cargo){
     novo->prox = NULL;
     
     if(new_user == NULL){
-        new_user = novo;
-        user++;
+            new_user = novo;
+            fim_user = novo;
+            user++;
     }else{
-        new_user->prox = novo;
+        fim_user->prox = novo;
+        fim_user = novo;
         user++;
     }
 
@@ -92,8 +95,7 @@ void imp_user(){
     USUARIO * aux = new_user;
     for(int i = 0; i < user; i++){
         printf("\tCPF: %d\n", aux->cpf);
-        printf("\tNome: %s\n", aux->nome);
-        printf("\tSenha: %d\n", aux->senha);
+        printf("\tNome: %s\n", aux->nome);;
         printf("\tCargo: %s\n\n", aux->cargo);
         aux = aux->prox;
     }

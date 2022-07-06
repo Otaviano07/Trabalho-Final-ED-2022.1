@@ -97,49 +97,58 @@ void menu(){
                         system("cls");
                         printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                         printf("\t---------- Menu Remover Pedido ----------\n\n");
-                        printf("\t       #Todas encomenda adicionada\n");
-                        in_ordem(tree);
-                        printf("\n\tDigite o ID do pedido: ");
-                        scanf("%d", &id);
-                        printf("\n\tAguarde um pouco...");
-                        sleep(1);
-                        copia = buscar(id,tree);
 
-                        if(copia->id == id){
-                            data_atual();
-                            strcpy(data, atual);
-                            system("cls");
-                            printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
-                            printf("\t---------- Menu Remover Pedido ----------\n\n");
-                            printf("\t     Digite os demais dados do pedido\n");
-                            printf("\n\tID: %d", copia->id);
-                            printf("\tDATA: %s", data);
-                            printf("\n\tALUNO: %s", copia->nome_aluno);
-                            printf("\n\tMatricula: %d", copia->matricula);
-                            printf("\n\tLIVRO: %s", copia->detalhes_livro);
-                            printf("\n\tPrioridade: ");
-                            scanf("%d", &prioridade);
-                            printf("\tCampus do aluno: ");
-                            fflush(stdin);
-                            scanf("%[^\n]s", &campus_aluno);
-                            printf("\tCampus do livro: ");
-                            fflush(stdin);
-                            scanf("%[^\n]s", &campus_livro);
-
-                            add_fila(prioridade, copia->id, data, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
-                            remover(id,tree);
-
-                            system("cls");
-                            printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
-                            printf("\t---------- Menu Remover Pedido ----------\n\n");
-                            printf("\tID removido com sucesso:)\n");
-                            printf("\n\tAguarde um pouco... ");
+                        if(buscar(id,tree) != NULL){
+                            printf("\t       #Todas encomenda adicionada\n");
+                            in_ordem(tree);
+                            printf("\n\tDigite o ID do pedido: ");
+                            scanf("%d", &id);
+                            printf("\n\tAguarde um pouco...");
                             sleep(1);
+                            copia = buscar(id,tree);
+
+                            if(copia->id == id){
+                                data_atual();
+                                strcpy(data, atual);
+                                system("cls");
+                                printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                                printf("\t---------- Menu Remover Pedido ----------\n\n");
+                                printf("\t     Digite os demais dados do pedido\n");
+                                printf("\n\tID: %d", copia->id);
+                                printf("\tDATA: %s", data);
+                                printf("\n\tALUNO: %s", copia->nome_aluno);
+                                printf("\n\tMatricula: %d", copia->matricula);
+                                printf("\n\tLIVRO: %s", copia->detalhes_livro);
+                                printf("\n\tPrioridade: ");
+                                scanf("%d", &prioridade);
+                                printf("\tCampus do aluno: ");
+                                fflush(stdin);
+                                scanf("%[^\n]s", &campus_aluno);
+                                printf("\tCampus do livro: ");
+                                fflush(stdin);
+                                scanf("%[^\n]s", &campus_livro);
+
+                                add_fila(prioridade, copia->id, data, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
+                                remover(id,tree);
+
+                                system("cls");
+                                printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                                printf("\t---------- Menu Remover Pedido ----------\n\n");
+                                printf("\tID removido com sucesso:)\n");
+                                printf("\n\tAguarde um pouco... ");
+                                sleep(1);
+                            }
+                        
+                            else{
+                                printf("\n\tPedido nao encontrda:(\n\n");
+                            }
                         }
+
                         else{
-                            printf("\n\tPedido nao encontrda:(\n\n");
+                             printf("\t       #Pedidos vazios\n");
                         }
                     }
+                    
 
                     printf("\n\tDeseja remover outro pedido? ");
                     printf("\n\t[1] Sim ou [0] Nao\n\n");
@@ -164,27 +173,33 @@ void menu(){
                         system("cls");
                         printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                         printf("\t---------- Menu Remover Pedido ----------\n\n");
-                        printf("\t       #Todos pedidos adicionado\n");
-                        imprimir_fila();
-                        sleep(1);
-                        printf("\n\tAguarde um pouco enquanto removemos o pedido...\n\n");
-                        remover_fila();
-                        system("pause");
-                        system("cls");
-                        printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
-                        printf("\t---------- Menu Remover Pedido ----------\n\n");
-                            if(inicio != NULL){
-                                printf("\t       #Pedido removido com sucesso:)\n");
-                                imprimir_fila();
-                            }
-                            else{
-                                printf("\t       #Pedido removido com sucesso:)\n");
-                            }
                         
+                        if(inicio != NULL){   
+                            printf("\t       #Todos pedidos adicionado\n");
+                            imprimir_fila();
+                            sleep(1);
+                            printf("\n\tAguarde um pouco enquanto removemos o pedido...\n\n");
+                            remover_fila();
+                            system("pause");
+                            system("cls");
+                            printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
+                            printf("\t---------- Menu Remover Pedido ----------\n\n");
+                                if(inicio != NULL){
+                                    printf("\t       #Encomenda removido com sucesso:)\n");
+                                    imprimir_fila();
+                                }
+                                else{
+                                    printf("\t       #Encomenda removido com sucesso:)\n");
+                                }
+                            
+                        }
+                        else{
+                            printf("\n\tUsuario nao encontrado encontrda:(\n\n");
+                        }
                     }
                     else{
-                        printf("\n\tUsuario nao encontrado encontrda:(\n\n");
-                    }
+                             printf("\t       #Encomenda vazios\n");
+                        }
                     
                     printf("\n\tDeseja remover outro pedido? ");
                     printf("\n\t[1] Sim ou [0] Nao\n\n");
@@ -260,10 +275,12 @@ int main(){
     menu();
     free(tree);
     free(new_user);
+    free(fim_user);
     free(inicio); 
     free(fim);
     
     return 0;
 }
+
 
 
