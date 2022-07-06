@@ -69,7 +69,7 @@ void imprimir_fila(){
         printf("\n\tALUNO: %s", aux->p->nome_aluno);
         printf("\n\tCAMPUS ALUNO: %s", aux->p->campus_aluno);
         printf("\n\tMatricula: %d", aux->p->matricula);
-        printf("\n\tLIVRO: %s\n", aux->p->detalhes_livro);
+        printf("\n\tLIVRO: %s", aux->p->detalhes_livro);
         printf("\n\tCAMPUS LIVRO: %s\n\n", aux->p->campus_livro);
         aux = aux->prox;
     }

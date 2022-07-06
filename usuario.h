@@ -18,17 +18,22 @@ USUARIO *new_user = NULL;
 USUARIO *fim_user = NULL;
 int user = 0;
 
-USUARIO *busca_user(int cpf, int senha){
-    USUARIO *aux = new_user;
+USUARIO *busca_user(int cpf, int senha, USUARIO *aux){
     
     if(aux->prox == NULL){
         return NULL;
     }
     else{
-        while(aux->prox != NULL && (aux->cpf != cpf && aux->senha != senha) ){
+        while((aux->cpf != cpf && aux->senha != senha) && aux->prox != NULL ){
             aux = aux->prox;
         }
+        if(aux->cpf == cpf && aux->senha == senha){
             return aux;
+        }
+        else{
+            return NULL;
+        }
+
      }
 }
 
