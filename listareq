@@ -1,0 +1,103 @@
+typedef struct Requisicao{
+    int mat_aluno;
+    int id_req;
+    char * nome_aluno;
+    char * titulo;
+    char * autor;
+    char * assunto;
+    char * campus_aluno;
+    char * data;
+    struct Requisicao * prox;
+}REQ;
+
+int req_tam = 0;
+REQ * inicio = NULL;
+
+void adicionar_req(int mat_aluno, char * nome_aluno, char * titulo, char * autor, char * assunto, char * campus_aluno, char * data){
+    REQ * novo = malloc(sizeof(REQ));
+    novo->id_req = req_tam;
+    novo->mat_aluno = mat_aluno;
+    novo->nome_aluno = nome_aluno;
+    novo->titulo = titulo;
+    novo->autor = autor;
+    novo->assunto = assunto;
+    novo->campus_aluno = campus_aluno;
+    novo->data = data;
+    novo->prox = NULL;
+    if(inicio == NULL){
+        inicio = novo;
+    }else{
+        novo->prox = inicio;
+        inicio = novo;
+        printf("Adicionou antes do inicio");
+    }
+    req_tam++;
+}
+
+void menu_add_req(){
+    int mat_aluno;
+    char nome[50];
+    char tit[50];
+    char aut[50];
+    char ass[50];
+    char cam[50];
+    char dat[11];
+    printf("Matricula: ");
+    scanf("%d", &mat_aluno);
+    printf("Nome do aluno: ");
+    fflush(stdin);
+    scanf("%[^\n]s", &nome);
+    printf("Titulo da Obra: ");
+    fflush(stdin);
+    scanf("%[^\n]s", &tit);
+    printf("Autor: ");
+    fflush(stdin);
+    scanf("%[^\n]s", &aut);
+    printf("Genero literário: ");
+    scanf("%s", &ass);
+    printf("Local do Campus: ");
+    fflush(stdin);
+    scanf("%s[^\n]s", &cam);
+    printf("Data: ");
+    scanf("%s", &dat);
+    adicionar_req(mat_aluno, nome, tit, aut, ass, cam, dat);
+}
+
+REQ * busca_req(int id_req, REQ * aux){
+    if(aux->id_req == id_req){
+        return aux;
+    }else if(aux->prox != inicio){
+        return busca_req(id_req, aux->prox);
+    }else{
+        return NULL;
+    }
+}
+
+void listar_requisicao(){
+    REQ * aux = inicio;
+    do{
+        printf("\nTitulo: %s, aux->titulo);
+        printf("- Autor: %s", aux->autor);
+        printf("| ID do Aluno: %d\n", aux->mat_aluno);
+        printf("Genero: %s ", aux->assunto);
+        printf("Data: %s\n\n", aux->data);
+        aux = aux->prox;
+    }while(aux != NULL);
+}
+
+REQ * remover_req(REQ * lixo){ //Adicionada na função de add a árvore, passando assim todos os dados que foram removidos ex: funcao_add_abb(remover_req(requisicoes))
+    REQ * documento;
+    if(req_tam == 1){
+        inicio = NULL;
+    }else{
+        REQ * aux = inicio;
+        while(aux->prox != lixo){
+            aux = aux->prox;
+        }
+        aux->prox = lixo->prox;
+    }
+    documento = lixo;
+    free(lixo);
+    req_tam--;
+    return documento;
+}
