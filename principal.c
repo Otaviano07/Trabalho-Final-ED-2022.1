@@ -138,15 +138,17 @@ void menu(){
                                 printf("\n\tAguarde um pouco... ");
                                 sleep(1);
                             }
-                        
                             else{
                                 printf("\n\tPedido nao encontrda:(\n\n");
                             }
+                    
                         }
-
                         else{
                              printf("\t       #Pedidos vazios\n");
-                        }
+                        }  
+                    }
+                    else{
+                        printf("\n\tUsuario nao encontrado :(\n\n");
                     }
                     
 
@@ -194,12 +196,13 @@ void menu(){
                             
                         }
                         else{
-                            printf("\n\tUsuario nao encontrado encontrda:(\n\n");
-                        }
+                             printf("\t       #Encomenda vazios\n");
+                        }  
                     }
                     else{
-                             printf("\t       #Encomenda vazios\n");
+                            printf("\n\tUsuario nao encontrado encontrda:(\n\n");
                         }
+                    
                     
                     printf("\n\tDeseja remover outro pedido? ");
                     printf("\n\t[1] Sim ou [0] Nao\n\n");
