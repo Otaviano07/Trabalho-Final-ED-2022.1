@@ -4,7 +4,7 @@
 #include <time.h>
 #include <locale.h>
 #include <Windows.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include "abb.h"
 #include "fila.h"
 #include "usuario.h"
@@ -19,7 +19,7 @@ int gerar_id(){
     srand((unsigned)time(NULL));
 
     do{
-        i = (10 + ( rand() % 100)) * (10 + ( rand() % 100));
+        i = (10 + rand() % 99) * (10 + rand() % 99);
         b = buscar(i, tree);
     }while(i < 999 && b != NULL );
 
@@ -55,7 +55,7 @@ void menu(){
     int id;
 
     do{
-        system("clear");
+        system("cls");
         printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
         printf("\t------------ Menu Biblioteca ------------\n");
         printf("\n\t[1] Adicionar Encomenda\n");
@@ -72,7 +72,7 @@ void menu(){
                     data_atual();
                     strcpy(data, atual);
                     id = gerar_id();
-                    system("clear");
+                    system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                     printf("\t-------- Menu Adicionar Encomenda -------\n\n");
                     
@@ -89,7 +89,7 @@ void menu(){
 
                     add_abb(id, data, nome, matricula, livro, tree);
 
-                    system("clear");
+                    system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                     printf("\t-------- Menu Adicionar Encomenda -------\n\n");
                     printf("\t   # Ultima encomenda adicionada:\n");
@@ -111,7 +111,7 @@ void menu(){
                     data_atual();
                     strcpy(data, atual);
                     char sec[TAM] = "Secretario";
-                    system("clear");
+                    system("cls");
                     printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                     printf("\t---------- Menu Remover Pedido ----------\n\n");
                     printf("\tDigite seus dados para confirmar usuario.\n\n");
@@ -122,7 +122,7 @@ void menu(){
                     encontrado =  busca_user(cpf, senha, new_user);
 
                     if (encontrado != NULL && strcmp(encontrado->cargo, sec) == 0){
-                        system("clear");
+                        system("cls");
                         printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                         printf("\t---------- Menu Remover Pedido ----------\n\n");
 
@@ -135,10 +135,10 @@ void menu(){
                             sleep(1);
                             copia = buscar(id,tree);
 
-                            if(copia->id == id){
+                            if(copia->id == id && copia != NULL){
                                 data_atual();
                                 strcpy(data, atual);
-                                system("clear");
+                                system("cls");
                                 printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                                 printf("\t---------- Menu Remover Pedido ----------\n\n");
                                 printf("\t     Digite os demais dados do pedido\n");
@@ -157,9 +157,9 @@ void menu(){
                                 scanf("%[^\n]s", &campus_livro);
 
                                 add_fila(prioridade, copia->id, data, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
-                                remover(id,tree);
+                                tree = remover(id,tree);
 
-                                system("clear");
+                                system("cls");
                                 printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                                 printf("\t---------- Menu Remover Pedido ----------\n\n");
                                 printf("\tID removido com sucesso:)\n");
@@ -190,7 +190,7 @@ void menu(){
             case 3:
                 do{
                     char transp[TAM] = "Transportador";
-                    system("clear");
+                    system("cls");
                     printf("\n\t      SISTEMA DE ENCOMENDA DE LIVRO\n");
                     printf("\t--------- Menu Remover Encomenda --------\n\n");
                     printf("\tDigite seus dados para confirmar usuario.\n\n");
@@ -201,7 +201,7 @@ void menu(){
                     encontrado =  busca_user(cpf, senha, new_user);
 
                     if ( encontrado != NULL && strcmp(encontrado->cargo, transp) == 0){
-                        system("clear");
+                        system("cls");
                         printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                         printf("\t---------- Menu Remover Pedido ----------\n\n");
                         
@@ -211,7 +211,7 @@ void menu(){
                             printf("\tAguarde um pouco enquanto removemos o pedido...\n\n");
                             remover_fila();
                             sleep(3);
-                            system("clear");
+                            system("cls");
                             printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                             printf("\t---------- Menu Remover Pedido ----------\n\n");
                             printf("\t       #Encomenda removido com sucesso:)\n");
@@ -241,7 +241,7 @@ void menu(){
                     int senha_user;
                     int cpf_user;
 
-                    system("clear");
+                    system("cls");
                     printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                     printf("\t--------- Menu Adicionar Usuario --------\n\n");
                     printf("\tDigite seus dados para confirmar usuario.\n\n");
@@ -252,7 +252,7 @@ void menu(){
                     encontrado =  busca_user(cpf, senha, new_user);
 
                     if ( encontrado != NULL && strcmp(encontrado->cargo, sec) == 0) {
-                        system("clear");
+                        system("cls");
                         printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                         printf("\t--------- Menu Adicionar Usuario --------\n\n");
 
@@ -272,7 +272,7 @@ void menu(){
                             scanf("%d", &senha_user);
                             add_user(cpf_user, senha_user, nome_user, cargo_user);
 
-                            system("clear");
+                            system("cls");
                             printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
                             printf("\t--------- Menu Adicionar Usuario --------\n\n");
                             printf("\t     Usuario cadastrado com sucesso:)\n\n");
