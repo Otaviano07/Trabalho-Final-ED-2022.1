@@ -260,7 +260,6 @@ int main(){
     menu();
     free(tree);
     free(new_user);
-    free(fim_user);
     free(inicio); 
     free(fim);
     
