@@ -40,12 +40,12 @@ void data_atual(){
 void menu(){
     USUARIO *encontrado;
     DOCUMENTO *copia;
-    char nome[TAM];
-    char campus_aluno[TAM];
-    char campus_livro[TAM];
-    char responsavel[TAM];
-    char livro[TAM];
-    char data[TAM];
+    char *nome;
+    char *campus_aluno;
+    char *campus_livro;
+    char *responsavel;
+    char *livro;
+    char *data;
     int prioridade;
     int matricula;
     int escolha;
@@ -70,6 +70,7 @@ void menu(){
             case 1:
                 do{
                     data_atual();
+                    data = malloc(sizeof(char));
                     strcpy(data, atual);
                     id = gerar_id();
                     system("cls");
@@ -80,12 +81,14 @@ void menu(){
                     printf("\tDATA: %s", data);
                     printf("\n\tNome do aluno: ");
                     fflush(stdin);
-                    scanf("%[^\n]s", &nome);
+                    nome = malloc(sizeof(char));
+                    scanf("%[^\n]s", nome);
                     printf("\tMatricula do aluno: ");
                     scanf("%d", &matricula);
                     printf("\tDetalhes do livro: ");
                     fflush(stdin);
-                    scanf("%[^\n]s", &livro);
+                    livro = malloc(sizeof(char));
+                    scanf("%[^\n]s", livro);
 
                     add_abb(id, data, nome, matricula, livro, tree);
 
@@ -137,6 +140,7 @@ void menu(){
 
                             if(copia->id == id && copia != NULL){
                                 data_atual();
+                                data = malloc(sizeof(char));
                                 strcpy(data, atual);
                                 system("cls");
                                 printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");
@@ -151,13 +155,15 @@ void menu(){
                                 scanf("%d", &prioridade);
                                 printf("\tCampus do aluno: ");
                                 fflush(stdin);
+                                campus_aluno = malloc(sizeof(char));
                                 scanf("%[^\n]s", &campus_aluno);
                                 printf("\tCampus do livro: ");
                                 fflush(stdin);
+                                campus_livro = malloc(sizeof(char));
                                 scanf("%[^\n]s", &campus_livro);
 
                                 add_fila(prioridade, copia->id, data, copia->nome_aluno, campus_aluno, copia->matricula, copia->detalhes_livro, campus_livro, encontrado->nome, inicio);
-                                remover(id,tree);
+                                tree = remover(id,tree);
 
                                 system("cls");
                                 printf("\n\t      SISTEMA DE PEDIDO DE LIVRO\n");

@@ -70,7 +70,8 @@ void imprimir_fila(){
         printf("\n\tCAMPUS ALUNO: %s", aux->p->campus_aluno);
         printf("\n\tMatricula: %d", aux->p->matricula);
         printf("\n\tLIVRO: %s", aux->p->detalhes_livro);
-        printf("\n\tCAMPUS LIVRO: %s\n\n", aux->p->campus_livro);
+        printf("\n\tCAMPUS LIVRO: %s", aux->p->campus_livro);
+        printf("\n\tSECRETARIO: %s\n\n", aux->p->responsavel);
         aux = aux->prox;
     }
 }
